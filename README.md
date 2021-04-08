@@ -18,3 +18,7 @@ Sovelluksen avulla voi pitää kirjaa ajankäytöstään. Sovelluksella on kahde
 * Muodostaa raportin viikon ajankäytöstä
 * Muodostaa raportin vapaavalintaiselta aikaväliltä
 * Kirjautua ulos
+
+## Sovellus Herokussa
+
+https://warm-crag-55403.herokuapp.com/
