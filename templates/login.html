@@ -1,0 +1,24 @@
+<h1>Timetracker</h1>
+
+</b>Login</b>
+
+{% for field, errors in form.errors.items() %}
+<p>{{ ', '.join(errors) }} </p>
+{% endfor %}
+{% for message in get_flashed_messages() %}
+<p>{{ message }} </p>
+{% endfor %}
+
+<form method="POST" action="/login">
+    {{ form.csrf_token }}
+    Username:
+    {{ form.username }}
+    <br>    
+    Password:
+    {{ form.password }}
+    <br>
+    {{ form.recaptcha }}
+    <input type="submit" value="login">
+</form>
+
+<a href="/">Frontpage</a>

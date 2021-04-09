@@ -18,4 +18,8 @@ class RegisterForm(FlaskForm):
     def validate_username(form, field):
         if user_exists(form.username.data):
             raise ValidationError("Username exists")
-            #pass
+
+class LoginForm(FlaskForm):
+    username = StringField("username", validators=[DataRequired()])
+    password = StringField("password", validators=[DataRequired()])
+    recaptcha = RecaptchaField()

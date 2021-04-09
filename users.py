@@ -1,8 +1,11 @@
+from flask_login.utils import logout_user
+from wtforms.validators import ValidationError
 from app import app
 from db import db
-from automap import User
+#from automap import User
+from models import User
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user, login_user
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -25,3 +28,14 @@ def register_new_user(realname: str, username: str, password: str):
     db.session.add(user)
     db.session.commit()
     return True
+
+def login(username: str, password: str):
+    user = db.session.query(User).filter_by(username=username).first()
+    #print(user.id)
+    #print(check_password_hash(user.password_hash, password))
+    if user is not None and check_password_hash(user.password_hash, password):
+        #print("logged in")
+        return login_user(user)
+    return False
+def logout():
+    return logout_user()
