@@ -21,4 +21,6 @@ Sovelluksen avulla voi pitää kirjaa ajankäytöstään. Sovelluksella on kahde
 
 ## Sovellus Herokussa
 
+![Heroku](https://pyheroku-badge.herokuapp.com/?app=warm-crag-55403)
+
 https://warm-crag-55403.herokuapp.com/
