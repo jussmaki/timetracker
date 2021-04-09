@@ -4,8 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin
 from db import db
 
-Base = declarative_base()
-metadata = Base.metadata
+#Base = declarative_base()
+#metadata = Base.metadata
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
