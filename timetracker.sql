@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS events CASCADE;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     realname TEXT NOT NULL,
-    username TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL
 );
 CREATE TABLE calendars (

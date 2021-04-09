@@ -1,0 +1,27 @@
+<h1>Timetracker</h1>
+
+<b>Register new user</b>
+
+{% for field, errors in form.errors.items() %}
+<p>{{ ', '.join(errors) }} </p>
+{% endfor %}
+
+<form method="POST" action="/register">
+    {{ form.csrf_token }}
+    Realname:
+    {{ form.realname }}
+    <br>
+    Username:
+    {{ form.username }}
+    <br>    
+    Password:
+    {{ form.password1 }}
+    <br>
+    Re-type password:
+    {{ form.password2 }}
+    <br>
+    {{ form.recaptcha }}
+    <input type="submit" value="register">
+</form>
+
+<a href="/">Frontpage</a>
