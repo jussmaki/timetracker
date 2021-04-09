@@ -11,4 +11,8 @@ if getenv("FLASK_ENV") == "development":
 
 db = SQLAlchemy(app)
 
-import automap
+#import User from models
+#from models import User, Calendar
+import models
+db.create_all()
+#import automap

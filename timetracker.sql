@@ -18,14 +18,14 @@ CREATE TABLE calendars (
     name TEXT,
     private BOOLEAN NOT NULL DEFAULT true
 );
-CREATE TABLE access_rights (
+/*CREATE TABLE access_rights (
     calendar_id INTEGER REFERENCES calendars,
     user_id INTEGER REFERENCES users,
     view_calendar BOOLEAN NOT NULL,
     modify_calendar BOOLEAN NOT NULL,
     change_rights BOOLEAN NOT NULL,
     delete_calendar BOOLEAN NOT NULL
-);
+);*/
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     calendar_id INTEGER REFERENCES calendars,
