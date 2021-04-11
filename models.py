@@ -61,12 +61,12 @@ class Task(db.Model):
 
     id = Column(Integer, primary_key=True)
     job_id = Column(ForeignKey('jobs.id'))
-    calendar_id = Column(ForeignKey('calendars.id'))
+    #calendar_id = Column(ForeignKey('calendars.id'))
     name = Column(Text, nullable=False)
     description = Column(Text)
     planned_time = Column(Integer, server_default=text("0"))
 
-    calendar = relationship('Calendar')
+    #calendar = relationship('Calendar')
     job = relationship('Job')
 
 class Event(db.Model):

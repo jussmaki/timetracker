@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import LoginManager, current_user, login_user
 
 login_manager = LoginManager()
-login_manager.login_view = 'login'
+login_manager.login_view = "/login"
 login_manager.init_app(app)
 
 @login_manager.user_loader
