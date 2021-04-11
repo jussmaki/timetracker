@@ -6,18 +6,20 @@ Sovelluksen avulla voi pitää kirjaa ajankäytöstään. Sovelluksella on kahde
 
 ### Kirjautumaton käyttäjä voi:
 
-* Luoda uuden käyttäjätunnuksen
-* Kirjautua olemassa olevalla käyttäjätunnuksella
+* [x] Luoda uuden käyttäjätunnuksen
+* [x] Kirjautua olemassa olevalla käyttäjätunnuksella
 
 ### Kirjautunut käyttäjä voi:
 
+* [x] Luoda uuden kalenterin
+* [x] Valita kalenterin 
 * Merkitä tekemiään asioita
 * Muokata tehtyjä merkintöjä
 * Poistaa tehtyjä merkintöjä
 * Katsoa aiemmin tekemiään merkintöjä
 * Muodostaa raportin viikon ajankäytöstä
 * Muodostaa raportin vapaavalintaiselta aikaväliltä
-* Kirjautua ulos
+* [x] Kirjautua ulos
 
 ## Sovellus Herokussa
 
