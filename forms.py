@@ -2,7 +2,7 @@ from app import app
 from users import user_exists
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField
-from wtforms.validators import DataRequired, EqualTo, ValidationError
+from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
 from os import getenv
 
 app.config['RECAPTCHA_PUBLIC_KEY'] = getenv("RECAPTCHA_PUBLIC_KEY")
@@ -23,3 +23,7 @@ class LoginForm(FlaskForm):
     username = StringField("username", validators=[DataRequired()])
     password = StringField("password", validators=[DataRequired()])
     recaptcha = RecaptchaField()
+
+class CreateCalendar(FlaskForm):
+    name = StringField("name", validators=[DataRequired(), Length(5, 30, message="minimun length for name is 5 and maximum is 30")])
+    description = StringField("description", default="")

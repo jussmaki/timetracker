@@ -2,7 +2,6 @@ from flask_login.utils import logout_user
 from wtforms.validators import ValidationError
 from app import app
 from db import db
-#from automap import User
 from models import User
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import LoginManager, current_user, login_user

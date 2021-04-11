@@ -21,6 +21,7 @@ class Calendar(db.Model):
     id = Column(Integer, primary_key=True)
     owner_id = Column(ForeignKey('users.id'))
     name = Column(Text)
+    description = Column(Text)
     private = Column(Boolean, nullable=False, server_default=text("true"))
 
     owner = relationship('User')

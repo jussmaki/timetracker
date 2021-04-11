@@ -1,0 +1,31 @@
+<h1>Timetracker</h1>
+
+<h4>Select calendar</h4>
+
+{% for calendar in users_calendars %}
+<a href="/calendar/{{ calendar.id }}">{{ calendar.name }}<a>
+<br />
+{% endfor %}
+
+{% if not users_calendars %}
+<p>No existing calendars found</p>
+{% endif %}
+
+<h4>Create new calendar</h4>
+
+{% for field, errors in create_calendar_form.errors.items() %}
+<p>{{ ', '.join(errors) }} </p>
+{% endfor %}
+
+<form method="POST" action="/">
+    {{ create_calendar_form.csrf_token }}
+    Name for new calendar:
+    {{ create_calendar_form.name }}
+    <br>    
+    Description of new calendar:
+    {{ create_calendar_form.description }}
+    <br>
+    <input type="submit" value="create">
+</form>
+
+<a href="logout">log out</a>
