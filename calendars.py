@@ -31,19 +31,28 @@ def current_user_is_calendar_owner(calendar: Calendar):
         return True
     return False
 
-def get_all_calendar_objects(calendar: Calendar):
+#def get_all_calendar_objects(calendar: Calendar):
     #calendar = db.session.query(Calendar).filter_by(id=id).first()
     #categories = db.session.query(Category).filter_by(calendar_id=calendar.id).all()
     #jobs = db.session.query(Job).join(Category.id).join
-    objects = db.session.query(Calendar, Category, Job, Task, Event).select_from(Calendar).join(Category).join(Job).join(Task).join(Event).filter(Calendar.id == calendar.id).all()
-    #print(objects[0])
-    return objects
+#    objects = db.session.query(Calendar, Category, Job, Task, Event).select_from(Calendar).join(Category, isouter=True).join(Job, isouter=True).join(Task).join(Event, isouter=True).filter(Calendar.id == calendar.id).all()
+#    print(objects)
+#    return objects
 
 #def get_calendars_categories(calendar: Calendar):
 #    categories = db.session.query(Category).filter_by(calendar_id=calendar.id)
 #    return categories
 
+def get_categories(calendar: Calendar):
+    categories = db.session.query(Category).filter(Category.calendar==calendar).all()
+    #print(categories)
+    return categories
+
 def create_new_category(calendar: Calendar, name: str, description: str):
     category = Category(calendar_id=calendar.id, name=name, description=description)
     db.session.add(category)
     db.session.commit()    
+
+def get_jobs(category: Category):
+    jobs = db.session.query(Job).filter(Job.category==category).all()
+    return jobs

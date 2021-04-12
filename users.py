@@ -38,3 +38,6 @@ def login(username: str, password: str):
     return False
 def logout():
     return logout_user()
+
+def get_user_by_id(id: int):
+    return db.session.query(User).filter_by(id=id).first()

@@ -1,7 +1,5 @@
-from logging import log
-
-from flask.app import Flask
-from models import Calendar
+#from flask.app import Flask
+#from models import Calendar
 from operator import methodcaller
 from flask.helpers import flash
 from flask_wtf import form
@@ -78,6 +76,6 @@ def calendar(id):
 
     return render_template("calendar.html",
     category_form=create_category_form, job_form=create_job_form, task_form=create_task_form, event_form=create_event_form,
-    objects=calendars.get_all_calendar_objects(calendar))
+    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_categories=calendars.get_categories, get_jobs=calendars.get_jobs, current_user=current_user)
 
     
