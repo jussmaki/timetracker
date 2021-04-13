@@ -6,6 +6,8 @@ app.secret_key = getenv("SECRET_KEY")
 
 import models
 
+import login_manager
+
 import routes
 
 @app.before_first_request

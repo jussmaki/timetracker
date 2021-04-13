@@ -1,18 +1,12 @@
-from flask_login.utils import logout_user
-from wtforms.validators import ValidationError
-from app import app
+#from app import app
 from db import db
 from models import User
+#from login_manager import login_manager
+from flask_login.utils import login_user, logout_user
+from wtforms.validators import ValidationError
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import LoginManager, current_user, login_user
 
-login_manager = LoginManager()
-login_manager.login_view = "/login"
-login_manager.init_app(app)
-
-@login_manager.user_loader
 def load_user(user_id):
-    #return db.session.query(User).filter_by(id=1).first()
     return db.session.query(User).get(user_id)
 
 def user_exists(username: str):
