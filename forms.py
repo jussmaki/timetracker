@@ -1,5 +1,3 @@
-from sqlalchemy.sql.sqltypes import Integer
-from werkzeug.exceptions import default_exceptions
 from app import app
 from users import user_exists
 from flask_wtf import FlaskForm, RecaptchaField

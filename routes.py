@@ -1,11 +1,6 @@
-#from flask.app import Flask
-#from models import Calendar
-from operator import methodcaller
-from flask.helpers import flash
-from flask_wtf import form
 from app import app
+from flask.helpers import flash
 from forms import RegisterForm, LoginForm, CreateCalendar, CreateCategory, CreateJob, CreateTask, CreateEvent
-#from flask import session
 from flask import render_template, redirect
 import users
 import calendars
@@ -15,7 +10,8 @@ from flask_login import current_user, login_required
 def index():
     #print(current_user.realname)
     if not current_user.is_authenticated:
-        return render_template("index.html")
+        #return render_template("index.html")
+        return redirect("/login")
     return calendars_view()
 
 #login
@@ -61,10 +57,6 @@ def calendar(id):
     calendar = calendars.get_calendar_by_id(id)
     if not calendars.current_user_is_calendar_owner(calendar):
         return "forbidden", 403
-    #calendar.ca
-    #testi = calendars.get_all_calendar_objects(calendar)
-    #print(testi)
-    #return("toimii")
     
     create_category_form = CreateCategory()
     create_job_form = CreateJob()
