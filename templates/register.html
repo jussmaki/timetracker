@@ -1,27 +1,30 @@
-<h1>Timetracker</h1>
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <div class="columns">
+            <div class="column col-auto col-mx-auto col-6">
+                <h6>Register new user</h6>
 
-<b>Register new user</b>
-
-{% for field, errors in form.errors.items() %}
-<p>{{ ', '.join(errors) }} </p>
-{% endfor %}
-
-<form method="POST" action="/register">
-    {{ form.csrf_token }}
-    Realname:
-    {{ form.realname }}
-    <br>
-    Username:
-    {{ form.username }}
-    <br>    
-    Password:
-    {{ form.password1 }}
-    <br>
-    Re-type password:
-    {{ form.password2 }}
-    <br>
-    {{ form.recaptcha }}
-    <input type="submit" value="register">
-</form>
-
-<a href="/">Frontpage</a>
+                {% for field, errors in register_form.errors.items() %}
+                <p>{{ ', '.join(errors) }} </p>
+                {% endfor %}
+                <div class=form-group>
+                    <form method="POST" action="/register" id="register_form">
+                        {{ register_form.csrf_token }}
+                        <label class="form-label">Realname</label>
+                        {{ register_form.realname }}
+                        <label class="form-label">Username</label>
+                        {{ register_form.username }}
+                        <label class="form-label">Password</label>
+                        {{ register_form.password1 }}
+                        <label class="form-label">Re-type password</label>
+                        {{ register_form.password2 }}
+                        <label class="form-label">Complete CAPTCHA</label>
+                        {{ register_form.recaptcha }}
+                    </form>
+                    <button class="btn" type="submit" form="register_form" value="register">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

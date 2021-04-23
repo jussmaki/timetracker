@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h6>{{ calendar.name }}</h6>
+  <i>{{ calendar.description }}</i>
+  <div class="container">
+    <div class="columns">
+      <div class="col-9">
+
+      </div>
+
+      <div class=col-3>
+
+        <p>categories</p>
+
+        <form method="POST" action="">
+            <select name = "category">
+                {% for category in get_categories(calendar) %}
+                <option value={{category.id}}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+      
+        {% if not get_categories(calendar) %}
+        <p>No existing categories found</p>
+        {% endif %}
+        <form method="POST" action="">
+            {{ category_form.csrf_token }}
+            Name for new category:
+            {{ category_form.name }}
+            <br>    
+            Description of new category:
+            {{ category_form.description }}
+            <br>
+            <input type="submit" value="create">
+        </form>
+      </div>
+    </div>
+    <!--script type="text/javascript" src="/static/calendar.js"></script-->
+{% endblock %}

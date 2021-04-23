@@ -1,28 +1,28 @@
-<h1>Timetracker</h1>
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <div class="columns">
+            <div class="column col-auto col-mx-auto col-6">
+                <h6>Login</h6>
 
-</b>Login</b>
-
-{% for field, errors in form.errors.items() %}
-<p>{{ ', '.join(errors) }} </p>
-{% endfor %}
-{% for message in get_flashed_messages() %}
-<p>{{ message }} </p>
-{% endfor %}
-
-<form method="POST" action="/login">
-    {{ form.csrf_token }}
-    Username:
-    {{ form.username }}
-    <br>    
-    Password:
-    {{ form.password }}
-    <br>
-    {{ form.recaptcha }}
-    <input type="submit" value="login">
-</form>
-
-<a href="register">Register new user here</a>
-
-</br>
-
-<a href="/">Frontpage</a>
+                {% for field, errors in login_form.errors.items() %}
+                <p>{{ ', '.join(errors) }} </p>
+                {% endfor %}
+                {% for message in get_flashed_messages() %}
+                <p>{{ message }} </p>
+                {% endfor %}
+                <div class="form-group">
+                    <form method="POST" action="/login" id="login_form">
+                        {{ login_form.csrf_token }}
+                        <label class="form-label">Username</label>
+                        {{ login_form.username }}
+                        <label class="form-label">Password</label>
+                        {{ login_form.password }}
+                    </form>
+                    <button class="btn" type="submit" form="login_form" value="login">Login</button>
+                </div>
+                <a href="/register">Register new user here</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

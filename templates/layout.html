@@ -8,14 +8,25 @@
   <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
 </head>
 <body class="bg-dark">
-  <h1>Timetracker</h1>
   <header class="navbar">
       <section class="navbar-section">
-        {{ calendar.name }} {{ calendar.description }}
+        <div class="navbar-brand">Timetracker</div>
       </section>
-      <div class="navbar-section">
-        <div class="navbar-brad">{{ current_user.realname }}<a href="/logout" class="btn btn-link">log out</a></div>
-      </div>
+      <section class="navbar-section">
+      </section>
+      {% if logout_form and current_user.is_authenticated %}
+      <section class="navbar-section">
+        <div class="navbar-brand">{{ current_user.realname }}</div>
+        <form method="POST" action="/logout" id="logout_form">
+          {{ logout_form.csrf_token }}
+        </form>
+        <button class="btn btn-link" type="submit" form="logout_form" value="logout">logout</button>
+      </section>
+      {% elif not current_user.is_authenticated %}
+      <section class="navbar-section">
+        <a href="/register">Create new user</a>
+      </section>
+      {% endif %}
 </header>
 {% block content %}{% endblock %} 
 </body>

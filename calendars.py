@@ -23,6 +23,15 @@ def current_user_is_calendar_owner(calendar: Calendar):
         return True
     return False
 
+def current_user_has_modify_rights(calendar: Calendar):
+    return current_user_is_calendar_owner(calendar)
+    #if calendar is None:
+    #    return False
+    #if (db.session.query(Calendar).
+    #if (db.session.query(Calendar).filter_by(id=calendar.id, owner_id=current_user.id).first()):
+    #    return True
+    #return False
+
 def get_categories(calendar: Calendar):
     categories = db.session.query(Category).filter(Category.calendar==calendar).all()
     return categories
