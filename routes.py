@@ -51,6 +51,25 @@ def calendars_view():
     return render_template("crud_calendars.html",
     users_calendars = calendars.get_users_calendars(current_user), create_calendar_form=create_calendar_form)
 
+
+@app.route("/calendar/<int:id>/full", methods=["GET", "POST"])
+def calendar_testi(id):
+    calendar = calendars.get_calendar_by_id(id)
+    if not calendars.current_user_is_calendar_owner(calendar):
+        return "forbidden", 403
+    
+    create_category_form = CreateCategory()
+    create_job_form = CreateJob()
+    create_task_form = CreateTask()
+    create_event_form = CreateEvent()
+
+    if create_category_form.validate_on_submit():
+        calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
+
+    return render_template("full.html",
+    category_form=create_category_form, job_form=create_job_form, task_form=create_task_form, event_form=create_event_form,
+    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_categories=calendars.get_categories, get_jobs=calendars.get_jobs, current_user=current_user)
+
 @app.route("/calendar/<int:id>", methods=["GET", "POST"])
 @login_required
 def calendar(id):

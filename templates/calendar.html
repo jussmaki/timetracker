@@ -1,161 +1,156 @@
-<!doctype html>
-<html>
-<head>
-  <title>Timetracker</title>
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
-</head>
-<body>
-  <h1>Timetracker</h1>
-
-  <header class="navbar">
-      <section class="navbar-section">
-        {{ calendar.name }} {{ calendar.description }}
-      </section>
-      <div class="navbar-section">
-        <div class="navbar-brad">{{ current_user.realname }}<a href="/logout" class="btn btn-link">log out</a></div>
-      </div>
-    </header>
-
+{% extends "layout.html" %}
+{% block content %}
   <div class="container">
     <div class="columns">
       <div class="col-9">
-
-      <div class="calendar calendar-lg">
-        <div class="calendar-navbar">
-          <div class="calendar-primary">kuukausi</div>
-        </div>
-
-        <div class="calendar-container">
-          <div class="calendar-header">
-            <div class="calendar-date">
-              Monday
+        <div class="calendar calendar-lg">
+          <div class="calendar-navbar">
+            <div class="calendar-primary">kuukausi</div>
+          </div>
+  
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <div class="calendar-date">
+                Monday
+              </div>
+              <div class="calendar-date">
+                Tuesday
+              </div>
+              <div class="calendar-date">
+                Wednesday
+              </div>
+              <div class="calendar-date">
+                Thursday
+              </div>
+              <div class="calendar-date">
+                Friday
+              </div>
+              <div class="calendar-date">
+                Saturday
+              </div>
+              <div class="calendar-date">
+                Sunday
+              </div>
             </div>
-            <div class="calendar-date">
-              Tuesday
-            </div>
-            <div class="calendar-date">
-              Wednesday
-            </div>
-            <div class="calendar-date">
-              Thursday
-            </div>
-            <div class="calendar-date">
-              Friday
-            </div>
-            <div class="calendar-date">
-              Saturday
-            </div>
-            <div class="calendar-date">
-              Sunday
+  
+            <div class="calendar-body">
+              <div class="calendar-date">
+                <button class="date-item">1</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">2</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">3</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">4</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">5</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">6</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">7</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">8</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">9</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">10</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">11</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">12</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">13</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">14</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">15</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">16</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">17</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">18</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">19</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">20</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">21</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">22</button>
+              </div>            
+              <div class="calendar-date">
+                <button class="date-item">23</button>
+              </div>           
+               <div class="calendar-date">
+                <button class="date-item">24</button>
+              </div>            
+              <div class="calendar-date">
+                <button class="date-item">25</button>
+              </div>           
+              <div class="calendar-date">
+                <button class="date-item">26</button>
+              </div>            
+              <div class="calendar-date">
+                <button class="date-item">27</button>
+              </div>           
+               <div class="calendar-date">
+                <button class="date-item">28</button>
+              </div>            
+              <div class="calendar-date">
+                <button class="date-item">29</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">30</button>
+                <div class="calendar-event">testi</div>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">31</button>
+               </div>
+              <div class="calendar-date">
+                <button class="date-item">1</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">2</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">3</button>
+              </div>
+              <div class="calendar-date">
+                <button class="date-item">4</button>
+              </div>
             </div>
           </div>
-
-          <div class="calendar-body">
-            <div class="calendar-date">
-              <button class="date-item">1</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">2</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">3</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">4</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">5</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">6</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">7</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">8</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">9</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">10</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">11</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">12</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">13</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">14</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">15</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">16</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">17</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">18</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">19</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">20</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">21</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">22</button>
-            </div>            
-            <div class="calendar-date">
-              <button class="date-item">23</button>
-            </div>           
-             <div class="calendar-date">
-              <button class="date-item">24</button>
-            </div>            
-            <div class="calendar-date">
-              <button class="date-item">25</button>
-            </div>           
-            <div class="calendar-date">
-              <button class="date-item">26</button>
-            </div>            
-            <div class="calendar-date">
-              <button class="date-item">27</button>
-            </div>           
-             <div class="calendar-date">
-              <button class="date-item">28</button>
-            </div>            
-            <div class="calendar-date">
-              <button class="date-item">29</button>
-            </div>
-            <div class="calendar-date">
-              <button class="date-item">30</button>
-              <div class="calendar-event">testi</div>
-            </div>
-             <div class="calendar-date">
-              <button class="date-item">31</button>
-            </div>
-
-          </div>
         </div>
-      </div>
-
-
       </div>
 
       <div class=col-3>
+
+        <div class="toast toast-error">
+          Lorem ipsum ad infinitum
+          <button class="btn btn-clear float-right"></button>
+        </div>
 
         <!--ul class="menu">
           <li class="divider" data-content="Calendars"></li>
@@ -193,5 +188,5 @@
         </form>
       </div>
     </div>
-  </body>
-</html>
+    <!--script type="text/javascript" src="/static/calendar.js"></script-->
+{% endblock %}

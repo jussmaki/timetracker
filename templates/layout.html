@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <title>Timetracker</title>
+  <!--muista päivittää näihin versiot-->
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+</head>
+<body class="bg-dark">
+  <h1>Timetracker</h1>
+  <header class="navbar">
+      <section class="navbar-section">
+        {{ calendar.name }} {{ calendar.description }}
+      </section>
+      <div class="navbar-section">
+        <div class="navbar-brad">{{ current_user.realname }}<a href="/logout" class="btn btn-link">log out</a></div>
+      </div>
+</header>
+{% block content %}{% endblock %} 
+</body>
+</html>
