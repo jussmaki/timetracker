@@ -1,3 +1,4 @@
+from models import Category
 from wtforms import validators
 from wtforms.fields.core import BooleanField
 from wtforms.fields.simple import HiddenField
@@ -46,6 +47,13 @@ class DeleteCalendar(FlaskForm):
 class CreateCategory(FlaskForm):
     name = StringField("name", validators=[DataRequired()])
     description = StringField("description", default="")  
+
+class ModifyCategory(FlaskForm):
+    name = StringField("name", validators=[DataRequired(), Length(5, 30, message="minimun length for name is 5 and maximum is 30")])
+    description = StringField("description")
+
+class DeleteCategory(FlaskForm):
+    delete = BooleanField("delete", validators=[DataRequired()])
       
 class CreateJob(FlaskForm):
     name = StringField("name", validators=[DataRequired()])

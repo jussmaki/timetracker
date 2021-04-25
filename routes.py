@@ -1,7 +1,7 @@
 from flask.globals import request
 from app import app
 from flask.helpers import flash
-from forms import DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, CreateJob, CreateTask, CreateEvent
+from forms import DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, ModifyCategory, DeleteCategory, CreateJob, CreateTask, CreateEvent
 from flask import render_template, redirect
 import users
 import calendars
@@ -77,30 +77,52 @@ def calendar_settings(id: int):
     delete_calendar_form.expected.data = calendar.name
     modify_calendar_form = ModifyCalendar()
     create_category_form = CreateCategory()
+    delete_category_form = DeleteCategory()
+    modify_category_form = ModifyCategory()
     create_job_form = CreateJob()
-    create_task_form = CreateTask()
-    create_event_form = CreateEvent()
+
+    categories = calendars.get_categories(calendar)
 
     #form actions
-    action = request.args.get("action", "none", str)
-    if action == "modify":
-        if not calendars.current_user_has_modify_rights(calendar):
-            return "forbidden", 403
-        if modify_calendar_form.validate_on_submit():
-            calendar.name = modify_calendar_form.name.data
-            calendar.description = modify_calendar_form.description.data
-            calendar.private = modify_calendar_form.private.data
-            calendars.modify_calendar(calendar)
-            return redirect("/calendar/"+str(calendar.id)+"/settings?tab=basics&action=modify&success=true")
-        else:
-            #return render_template?
-            pass
-    elif action == "delete":
-        if not calendars.current_user_has_owner_rights(calendar):
-            return "forbidden", 403
-        if delete_calendar_form.validate_on_submit():
-            calendars.delete_calendar(calendar)
-            return redirect("/calendars")
+    tab = request.args.get("tab", "", str)
+    action = request.args.get("action", "", str)
+    category_id = request.args.get("category_id", None, int)
+
+    if tab == "basics":
+        if action == "modify":
+            if modify_calendar_form.validate_on_submit():
+                calendar.name = modify_calendar_form.name.data
+                calendar.description = modify_calendar_form.description.data
+                calendar.private = modify_calendar_form.private.data
+                calendars.modify_calendar(calendar)
+                return redirect("/calendar/"+str(calendar.id)+"/settings?tab=basics&action=modify&success=true")
+            else:
+                #return render_template?
+                pass
+        elif action == "delete":
+            if not calendars.current_user_has_owner_rights(calendar):
+                return "forbidden", 403
+            if delete_calendar_form.validate_on_submit():
+                calendars.delete_calendar(calendar)
+                return redirect("/calendars")
+    elif tab == "categories_and_jobs":
+        if action == "new_category":
+                if create_category_form.validate_on_submit():
+                    calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
+                    return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
+        elif action == "modify_category" and category_id:
+            if modify_category_form.validate_on_submit():
+                category = next(c for c in categories if c.id == category_id)
+                category.name = modify_category_form.name.data
+                category.description = modify_category_form.description.data
+                calendars.modify_category(calendar, category)
+                return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
+        elif action == "delete_category" and category_id:
+                #if category_id not in categories:
+                #    return "forbidden", 403
+                if delete_category_form.validate_on_submit():
+                    calendars.delete_category(calendar, category_id)
+                    return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
 
     #after form handling, so does not overwrite data received
 
@@ -114,28 +136,8 @@ def calendar_settings(id: int):
     #    calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
 
     return render_template("calendar_settings.html",
-    logout_form=logout_form, modify_calendar_form=modify_calendar_form, delete_calendar_form=delete_calendar_form, category_form=create_category_form, job_form=create_job_form, task_form=create_task_form, event_form=create_event_form,
-    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_categories=calendars.get_categories, get_jobs=calendars.get_jobs, current_user=current_user)
-
-@app.route("/calendar/<int:id>/settings/modify", methods=["POST"])
-@login_required
-def modify_calendar(id: int):
-    calendar = calendars.get_calendar_by_id(id)
-    if not calendars.current_user_has_modify_rights(calendar):
-        return "forbidden", 403
-    modify_calendar_form = ModifyCalendar()
-    if modify_calendar_form.validate_on_submit():
-        calendar.name = modify_calendar_form.name.data
-        calendar.description = modify_calendar_form.description.data
-        calendar.private = modify_calendar_form.private.data
-        calendars.modify_calendar(calendar)
-        #calendars.modify_calendar(calendar, modify_calendar_form.name.data, modify_calendar_form.description.data, modify_calendar_form.private.data)
-    #error_str = ""
-    #for errors in modify_calendar_form.errors.items():
-    #    error_str.join(errors)
-    #if error_str != "": flash(error_str)
-    return redirect("/calendar/"+str(calendar.id)+"/settings?tab=basics")
-
+    logout_form=logout_form, modify_calendar_form=modify_calendar_form, delete_calendar_form=delete_calendar_form, create_category_form=create_category_form, modify_category_form=modify_category_form, delete_category_form=delete_category_form, job_form=create_job_form,
+    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), categories=categories, get_jobs=calendars.get_jobs, current_user=current_user)
 
 #@app.route("/calendar/<int:id>/full", methods=["GET", "POST"])
 #def calendar_testi(id):
@@ -159,21 +161,17 @@ def modify_calendar(id: int):
 @login_required
 def calendar(id):
     calendar = calendars.get_calendar_by_id(id)
-    if not calendars.current_user_is_calendar_owner(calendar):
+    if not calendars.calendar_is_public_or_current_user_has_view_rights(calendar):
         return "forbidden", 403
     if not request.args.get("view"):
         return redirect("/calendar/"+str(calendar.id)+"?view=week")   
     logout_form = LogoutForm()
-    create_category_form = CreateCategory()
-    create_job_form = CreateJob()
+
     create_task_form = CreateTask()
     create_event_form = CreateEvent()
 
-    if create_category_form.validate_on_submit():
-        calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
-
     return render_template("calendar.html",
-    logout_form=logout_form, category_form=create_category_form, job_form=create_job_form, task_form=create_task_form, event_form=create_event_form,
-    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_categories=calendars.get_categories, get_jobs=calendars.get_jobs, current_user=current_user)
+    logout_form=logout_form, create_task_form=create_task_form, event_form=create_event_form,
+    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_jobs=calendars.get_jobs, current_user=current_user)
 
     

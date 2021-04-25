@@ -45,6 +45,10 @@ def current_user_has_modify_rights(calendar: Calendar):
     #    return True
     #return False
 
+def calendar_is_public_or_current_user_has_view_rights(calendar: Calendar):
+    #to be done
+    return current_user_is_calendar_owner(calendar)
+
 def current_user_has_owner_rights(calendar: Calendar):
     return current_user_is_calendar_owner(calendar)
 
@@ -56,6 +60,18 @@ def create_new_category(calendar: Calendar, name: str, description: str):
     category = Category(calendar_id=calendar.id, name=name, description=description)
     db.session.add(category)
     db.session.commit()
+
+def delete_category(calendar: Calendar, category_id: int):
+    db.session.query(Category).filter(Category.id == category_id, Category.calendar_id == calendar.id).delete()
+    db.session.commit()
+
+def modify_category(calendar: Calendar, category: Category):
+    #db.session.query(Category).filter(Category.id == category.id, Category.calendar_id.id == calendar.id).update(
+    #    {Category.name: category.name, Category.description: calendar.description})
+    #db.session.commit()    
+    db.session.query(Category).filter(Category.id == category.id).update(
+        {Category.name: category.name, Category.description: category.description})
+    db.session.commit()    
 
 def get_jobs(category: Category):
     jobs = db.session.query(Job).filter(Job.category==category).all()

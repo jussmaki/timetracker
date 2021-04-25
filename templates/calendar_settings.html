@@ -93,36 +93,134 @@
             <button class="btn" type="submit" form="delete_calendar_form" value="delete">Delete</button>
         </div>
       </div>
+
+    {% elif request.args.get("tab") == "categories_and_jobs" %}
+    
+      {% if not categories %}
+        <div class="empty bg-dark">
+          <p class="empty-title h5">No existing categories</p>
+          <p class="empty-subtitle">You may want add some</p>
+        </div>
+      {% else %}
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for category in categories %}
+            <tr class="">
+              <td>{{ category.name }}</td>
+              <td>
+                {{ category.description }}
+                <div class="float-right">
+                  <div class="popover popover-left">
+                    <button class="btn btn-primary">Edit</button>
+                    <div class="popover-container">
+                      <div class="card text-dark">
+                        <div class="card-header">
+                          Edit
+                        </div>
+                        <div class="card-body">
+                          <div class="form-group">
+                            <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&category_id={{ category.id }}&action=modify_category" id="modify_category_{{ category.id }}_form">
+                              {{ modify_category_form.csrf_token }}
+                              <label class="form-label">Name</label>
+                              {{ modify_category_form.name }}
+                              <label class="form-label">Description</label>
+                              {{ modify_category_form.description }}
+                            </form>
+                        </div>
+                        </div>
+                        <div class="card-footer">
+                          <button class="btn" type="submit" form="modify_category_{{ category.id }}_form" value="modify">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="popover popover-left">
+                    <button class="btn btn-primary">Delete</button>
+                    <div class="popover-container">
+                      <div class="card text-dark">
+                        <div class="card-header">
+                          Delete
+                        </div>
+                        <div class="card-body">
+                          <div class="form-group">
+                            <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&category_id={{ category.id }}&action=delete_category" id="delete_category_{{ category.id }}_form">
+                                {{ delete_category_form.csrf_token }}
+                                <label class="form-checkbox">
+                                    {{delete_category_form.delete}}
+                                    <i class="form-icon"></i> I want to delete {{ category.name }} category.
+                                </label>
+                            </form>
+                        </div>
+                        </div>
+                        <div class="card-footer">
+                          <button class="btn" type="submit" form="delete_category_{{ category.id }}_form" value="delete">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+
+
+
+
     {% endif %}
+
 
     </div>
 
       <div class=col-3>
 
-        <h6>Settings</h6>
+        <h4>Settings</h4>
 
-        <p>categories</p>
+        {% if request.args.get("tab") == "basics" %}
 
-        <!--form method="POST" action="/none" id="none">
-            <select name = "category">
-                {% for category in get_categories(calendar) %}
-                <option value={{category.id}}>{{ category.name }}</option>
-                {% endfor %}
-            </select>
-        </form>
-      
-        {% if not get_categories(calendar) %}
-        <p>No existing categories found</p>
+        <h6>Basics</h6>
+
+
+
+        {% elif request.args.get("tab") == "categories_and_jobs" %}
+
+
+        <h6>Categories & Jobs</h6>
+
+        <div class="empty bg-dark">
+          <div class="empty-title">
+            Add category
+          {% for field, errors in create_category_form.errors.items() %}
+          <div id="create_category_error_{{ field }}" class="toast toast-error">
+            <button onClick="hideElementById('create_category_error_{{ field }}')" class="btn btn-clear float-right"></button>
+            {{ ', '.join(errors) }}
+          </div>
+        {% endfor %}
+          <div class="form-group">
+              <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&action=new_category" id="create_category_form">
+                  {{ create_category_form.csrf_token }}
+                  <label class="form-label">Name for new category</label>
+                  {{ create_category_form.name }}
+                  <label class="form-label">Description of new category</label>
+                  {{ create_category_form.description }}
+              </form>
+          </div>
+          <div class="empty-action">
+            <button class="btn btn-primary" type="submit" form="create_category_form" value="create">Create</button>
+          </div>
+        </div>
+        </div>
+
         {% endif %}
-        <form method="POST" action="/none" id="none">
-            Name for new category:
-            {{ category_form.name }}
-            <br>    
-            Description of new category:
-            {{ category_form.description }}
-            <br>
-            <input type="submit" value="create">
-        </form-->
       </div>
     </div>
 {% endblock %}

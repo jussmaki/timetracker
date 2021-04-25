@@ -167,41 +167,9 @@
           <button class="btn btn-clear float-right"></button>
         </div>
 
-        <!--ul class="menu">
-          <li class="divider" data-content="Calendars"></li>
-          <li class="menu-item">
-            <i class="icon-link">{{ calendar.name }}</i></li>
-            {% for another_calendar in users_calendars %}
-            <li class="menu-item">
-              <a href="/calendar/{{another_calendar.id}}"><i class="icon-link">{{another_calendar.name}}</i></a>
-            </li>
-            {% endfor %}
-        </ul-->
 
-        <p>categories</p>
 
-        <form method="POST" action="">
-            <select name = "category">
-                {% for category in get_categories(calendar) %}
-                <option value={{category.id}}>{{ category.name }}</option>
-                {% endfor %}
-            </select>
-        </form>
-      
-        {% if not get_categories(calendar) %}
-        <p>No existing categories found</p>
-        {% endif %}
-        <form method="POST" action="">
-            {{ category_form.csrf_token }}
-            Name for new category:
-            {{ category_form.name }}
-            <br>    
-            Description of new category:
-            {{ category_form.description }}
-            <br>
-            <input type="submit" value="create">
-        </form>
+        
       </div>
     </div>
-    <!--script type="text/javascript" src="/static/calendar.js"></script-->
 {% endblock %}
