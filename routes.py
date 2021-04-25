@@ -53,8 +53,8 @@ def logout_get_reg():
 
 #calendars
 
-@login_required
 @app.route("/calendars", methods=["GET", "POST"])
+@login_required
 def calendars_view():
     logout_form = LogoutForm()
     create_calendar_form = CreateCalendar()
@@ -64,8 +64,8 @@ def calendars_view():
     return render_template("crud_calendars.html",
     users_calendars = calendars.get_users_calendars(current_user), create_calendar_form=create_calendar_form, current_user=current_user, logout_form=logout_form)
 
-@login_required
 @app.route("/calendar/<int:id>/settings", methods=["GET", "POST"])
+@login_required
 def calendar_settings(id: int):
     calendar = calendars.get_calendar_by_id(id)
     if not calendars.current_user_has_modify_rights(calendar):
@@ -117,8 +117,8 @@ def calendar_settings(id: int):
     logout_form=logout_form, modify_calendar_form=modify_calendar_form, delete_calendar_form=delete_calendar_form, category_form=create_category_form, job_form=create_job_form, task_form=create_task_form, event_form=create_event_form,
     calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_categories=calendars.get_categories, get_jobs=calendars.get_jobs, current_user=current_user)
 
-@login_required
 @app.route("/calendar/<int:id>/settings/modify", methods=["POST"])
+@login_required
 def modify_calendar(id: int):
     calendar = calendars.get_calendar_by_id(id)
     if not calendars.current_user_has_modify_rights(calendar):
