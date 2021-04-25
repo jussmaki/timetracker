@@ -1,7 +1,7 @@
 from flask.globals import request
 from app import app
 from flask.helpers import flash
-from forms import DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, ModifyCategory, DeleteCategory, CreateJob, CreateTask, CreateEvent
+from forms import FlaskForm, DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, ModifyCategory, DeleteCategory, CreateJob, CreateTask, CreateEvent
 from flask import render_template, redirect
 import users
 import calendars
@@ -109,26 +109,24 @@ def calendar_settings(id: int):
         if action == "new_category":
                 if create_category_form.validate_on_submit():
                     calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
-                    return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
+                else:
+                    flash_errors_in_form(create_category_form)
+                return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
         elif action == "modify_category" and category_id:
             if modify_category_form.validate_on_submit():
                 category = next(c for c in categories if c.id == category_id)
                 category.name = modify_category_form.name.data
                 category.description = modify_category_form.description.data
                 calendars.modify_category(calendar, category)
-                return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
+            else:
+                flash_errors_in_form(modify_category_form)
+            return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
         elif action == "delete_category" and category_id:
                 #if category_id not in categories:
                 #    return "forbidden", 403
                 if delete_category_form.validate_on_submit():
                     calendars.delete_category(calendar, category_id)
                     return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
-
-    #after form handling, so does not overwrite data received
-
-    modify_calendar_form.name.data = calendar.name
-    modify_calendar_form.description.data = calendar.description
-    modify_calendar_form.private.data = calendar.private
 
     #print(modify_calendar_form.is_submitted(), create_category_form.is_submitted())
 
@@ -174,4 +172,7 @@ def calendar(id):
     logout_form=logout_form, create_task_form=create_task_form, event_form=create_event_form,
     calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_jobs=calendars.get_jobs, current_user=current_user)
 
-    
+def flash_errors_in_form(form: FlaskForm):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(error)

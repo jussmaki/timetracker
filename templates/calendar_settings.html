@@ -21,11 +21,12 @@
         </ul>
 
 
-          {% for message in get_flashed_messages() %}
-            <div class="toast toast-error">
-              {{ message }}
-            </div>
-            {% endfor %}
+        {% for message in get_flashed_messages() %}
+        <div id="error_{{ message }}" class="toast toast-error">
+          <button onClick="hideElementById('error_{{ message }}')" class="btn btn-clear float-right"></button>
+          {{ message }}
+        </div>
+        {% endfor %}
           
 
       {%if request.args.get("tab") == "basics" %}
@@ -47,14 +48,14 @@
               </div>
                 {% endif %}  
             <div class="form-group">
-                <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=basics&action=modify" id="modify_calendar_form">
+                <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=basics&action=modify" id="modify_calendar_form" autocomplete="off">
                     {{ modify_calendar_form.csrf_token }}
                     <label class="form-label">Calendar name</label>
-                    {{ modify_calendar_form.name }}
+                    {{ modify_calendar_form.name(value=calendar.name) }}
                     <label class="form-label">Description</label>
-                    {{ modify_calendar_form.description }}
+                    {{ modify_calendar_form.description(value=calendar.description) }}
                     <label class="form-checkbox">
-                        {{modify_calendar_form.private}}
+                        {{modify_calendar_form.private(value=calendar.private)}}
                         <i class="form-icon"></i> Private
                     </label>
                 </form>
@@ -78,10 +79,10 @@
               </div>
             {% endfor %}
             <div class="form-group">
-                <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=basics&action=delete" id="delete_calendar_form">
+                <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=basics&action=delete" id="delete_calendar_form" autocomplete="off">
                     {{ delete_calendar_form.csrf_token }}
                     <label class="form-label">Type calendar name</label>
-                    {{ delete_calendar_form.name }}
+                    {{ delete_calendar_form.name(value="") }}
                     <label class="form-checkbox">
                         {{delete_calendar_form.delete}}
                         <i class="form-icon"></i> I really want to delete my calendar and all calendar data
@@ -126,12 +127,12 @@
                         </div>
                         <div class="card-body">
                           <div class="form-group">
-                            <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&category_id={{ category.id }}&action=modify_category" id="modify_category_{{ category.id }}_form">
+                            <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&category_id={{ category.id }}&action=modify_category" id="modify_category_{{ category.id }}_form" autocomplete="off">
                               {{ modify_category_form.csrf_token }}
                               <label class="form-label">Name</label>
-                              {{ modify_category_form.name }}
+                              {{ modify_category_form.name(value=category.name) }}
                               <label class="form-label">Description</label>
-                              {{ modify_category_form.description }}
+                              {{ modify_category_form.description(value=category.description) }}
                             </form>
                         </div>
                         </div>
