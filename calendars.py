@@ -7,6 +7,19 @@ def create_new_calendar(name: str, description: str):
     db.session.add(calendar)
     db.session.commit()
     return calendar.id
+def modify_calendar(calendar: Calendar, name: str, description: str, private: bool):
+    db.session.query(Calendar).filter(Calendar.id == calendar.id).update(
+        {Calendar.name: name, Calendar.description: description, Calendar.private: private})
+    db.session.commit()
+
+def modify_calendar(calendar: Calendar):
+    db.session.query(Calendar).filter(Calendar.id == calendar.id).update(
+        {Calendar.name: calendar.name, Calendar.description: calendar.description, Calendar.private: calendar.private})
+    db.session.commit()
+
+def delete_calendar(calendar: Calendar):
+    db.session.query(Calendar).filter(Calendar.id == calendar.id).delete()
+    db.session.commit()
 
 def get_users_calendars(user: User):
     calendars = db.session.query(Calendar).filter_by(owner_id=user.id).all()
@@ -31,6 +44,9 @@ def current_user_has_modify_rights(calendar: Calendar):
     #if (db.session.query(Calendar).filter_by(id=calendar.id, owner_id=current_user.id).first()):
     #    return True
     #return False
+
+def current_user_has_owner_rights(calendar: Calendar):
+    return current_user_is_calendar_owner(calendar)
 
 def get_categories(calendar: Calendar):
     categories = db.session.query(Category).filter(Category.calendar==calendar).all()

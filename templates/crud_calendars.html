@@ -13,7 +13,7 @@
                     <body>
                         {% for calendar in users_calendars %}
                         <tr>
-                            <th><a href="/calendar/{{ calendar.id }}" class="btn btn-link">{{ calendar.name }}</a></th>
+                            <th><a href="/calendar/{{ calendar.id }}?view=week" class="btn btn-link">{{ calendar.name }}</a></th>
                         </tr>
                         {% endfor %}
                         
@@ -25,11 +25,16 @@
                     </body>
                 </table>
 
+                </br>
+
                 <b>Create new calendar</b>
 
                 {% for field, errors in create_calendar_form.errors.items() %}
-                <p>{{ ', '.join(errors) }} </p>
-                {% endfor %}
+                <div id="create_calendar_error_{{ field }}" class="toast toast-error">
+                  <button onClick="hideElementById('create_calendar_error_{{ field }}')" class="btn btn-clear float-right"></button>
+                  {{ ', '.join(errors) }}
+                </div>
+              {% endfor %}
 
                 <div class="form-group">
                     <form method="POST" action="/calendars" id="create_calendar_form">

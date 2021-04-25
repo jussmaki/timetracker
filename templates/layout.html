@@ -6,17 +6,67 @@
   <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
   <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
   <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+  <script type="text/javascript" src="/static/calendar.js"></script>
 </head>
-<body class="bg-dark">
+<!--body><!--class="bg-dark"-->
+ 
+<body class="bg-dark"> 
   <header class="navbar">
       <section class="navbar-section">
         <div class="navbar-brand">Timetracker</div>
       </section>
       <section class="navbar-section">
+
+      </section>
+      <section class="navbar-section">
+
+      </section>
+      <section class="navbar-section">
+
+      </section>
+      <section class="navbar-section">
+
+      </section>
+      <section class="navbar-section">
+
       </section>
       {% if logout_form and current_user.is_authenticated %}
       <section class="navbar-section">
-        <div class="navbar-brand">{{ current_user.realname }}</div>
+        <div class="popover popover-bottom">
+          <a href="/calendars" class="btn btn-link">Calendars</a>
+          <div class="popover-container">
+            <div class="card bg-secondary">
+              <div class="card-header">
+                <span class="text-dark">Calendars</span>
+              </div>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <body>
+                      {% for calendar in users_calendars %}
+                      <tr>
+                          <th><a href="/calendar/{{ calendar.id }}" class="btn btn-link">{{ calendar.name }}</a></th>
+                      </tr>
+                      {% endfor %}
+                      
+                      {% if not users_calendars %}
+                      <tr>
+                          <th>No existing calendars found</th>
+                      </tr>
+                      {% endif %}
+                  </body>
+              </table>
+              </div>
+              <div class="card-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!--section class="navbar-section">
+        <a href="/calendars">Calendars</a>
+      </section-->
+      <section class="navbar-section">
+        {{ current_user.realname }}
         <form method="POST" action="/logout" id="logout_form">
           {{ logout_form.csrf_token }}
         </form>
@@ -28,6 +78,6 @@
       </section>
       {% endif %}
 </header>
-{% block content %}{% endblock %} 
+{% block content %}{% endblock %}
 </body>
 </html>

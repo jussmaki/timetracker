@@ -4,13 +4,18 @@
         <div class="columns">
             <div class="column col-auto col-mx-auto col-6">
                 <h6>Login</h6>
-
-                {% for field, errors in login_form.errors.items() %}
-                <p>{{ ', '.join(errors) }} </p>
-                {% endfor %}
-                {% for message in get_flashed_messages() %}
-                <p>{{ message }} </p>
-                {% endfor %}
+              {% for field, errors in login_form.errors.items() %}
+                <div id="login_error_{{ field }}" class="toast toast-error">
+                  <button onClick="hideElementById('login_error_{{ field }}')" class="btn btn-clear float-right"></button>
+                  {{ ', '.join(errors) }}
+                </div>
+              {% endfor %}
+              {% for message in get_flashed_messages() %}
+              <div id="login_error_{{ field }}" class="toast toast-error">
+                <button onClick="hideElementById('login_error_{{ field }}')" class="btn btn-clear float-right"></button>
+                {{ message }}
+              </div>
+              {% endfor %}
                 <div class="form-group">
                     <form method="POST" action="/login" id="login_form">
                         {{ login_form.csrf_token }}

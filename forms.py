@@ -1,3 +1,6 @@
+from wtforms import validators
+from wtforms.fields.core import BooleanField
+from wtforms.fields.simple import HiddenField
 from app import app
 from users import user_exists
 from flask_wtf import FlaskForm, RecaptchaField
@@ -29,6 +32,16 @@ class LogoutForm(FlaskForm):
 class CreateCalendar(FlaskForm):
     name = StringField("name", validators=[DataRequired(), Length(5, 30, message="minimun length for name is 5 and maximum is 30")])
     description = StringField("description", default="")
+
+class ModifyCalendar(FlaskForm):
+    name = StringField("name", validators=[DataRequired(), Length(5, 30, message="minimun length for name is 5 and maximum is 30")])
+    description = StringField("description")
+    private = BooleanField("private")
+
+class DeleteCalendar(FlaskForm):
+    expected = StringField("expected", default="")
+    name = StringField("name", validators=[DataRequired(), EqualTo("expected", "Calendar name does not match")])
+    delete = BooleanField("delete", validators=[DataRequired()])
 
 class CreateCategory(FlaskForm):
     name = StringField("name", validators=[DataRequired()])

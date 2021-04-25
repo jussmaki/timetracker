@@ -5,14 +5,105 @@
   <div class="container">
     <div class="columns">
       <div class="col-9">
+        <ul class="tab tab-block">
+            <li class="tab-item{% if request.args.get("tab") == "basics" %} active{%endif%}">
+              <a href="?tab=basics">Basics</a>
+            </li>
+            <li class="tab-item{% if request.args.get("tab") == "categories_and_jobs" %} active{%endif%}">
+                <a href="?tab=categories_and_jobs">Categories & Jobs</a>
+            </li>
+            <li class="tab-item{% if request.args.get("tab") == "users" %} active{%endif%}">
+                <a href="?tab=users">Users</a>
+            </li>
+            <li class="tab-item"">
+                <a href="/calendar/{{ calendar.id }}?view=week">Calendar</a>
+            </li>
+        </ul>
 
+
+          {% for message in get_flashed_messages() %}
+            <div class="toast toast-error">
+              {{ message }}
+            </div>
+            {% endfor %}
+          
+
+      {%if request.args.get("tab") == "basics" %}
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Modify calendar</div>
+        </div>
+        <div class="panel-body">
+            {% for field, errors in modify_calendar_form.errors.items() %}
+              <div id="modify_error_{{ field }}" class="toast toast-error">
+                <button onClick="hideElementById('modify_error_{{ field }}')" class="btn btn-clear float-right"></button>
+                {{ ', '.join(errors) }}
+              </div>
+            {% endfor %}
+              {% if request.args.get("action") == "modify" and request.args.get("success") %}
+              <div id="modify_success" class="toast toast-success">
+                <button onClick="hideElementById('modify_success')" class="btn btn-clear float-right"></button>
+                Action successful
+              </div>
+                {% endif %}  
+            <div class="form-group">
+                <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=basics&action=modify" id="modify_calendar_form">
+                    {{ modify_calendar_form.csrf_token }}
+                    <label class="form-label">Calendar name</label>
+                    {{ modify_calendar_form.name }}
+                    <label class="form-label">Description</label>
+                    {{ modify_calendar_form.description }}
+                    <label class="form-checkbox">
+                        {{modify_calendar_form.private}}
+                        <i class="form-icon"></i> Private
+                    </label>
+                </form>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button class="btn" type="submit" form="modify_calendar_form" value="save">Save</button>
+        </div>
       </div>
+
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Delete</div>
+        </div>
+        <div class="panel-body">
+            {% for field, errors in delete_calendar_form.errors.items() %}
+              <div id="delete_error_{{ field }}" class="toast toast-error">
+                <button onClick="hideElementById('delete_error_{{ field }}')" class="btn btn-clear float-right"></button>
+                {{ ', '.join(errors) }}
+              </div>
+            {% endfor %}
+            <div class="form-group">
+                <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=basics&action=delete" id="delete_calendar_form">
+                    {{ delete_calendar_form.csrf_token }}
+                    <label class="form-label">Type calendar name</label>
+                    {{ delete_calendar_form.name }}
+                    <label class="form-checkbox">
+                        {{delete_calendar_form.delete}}
+                        <i class="form-icon"></i> I really want to delete my calendar and all calendar data
+                    </label>
+                </form>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button class="btn" type="submit" form="delete_calendar_form" value="delete">Delete</button>
+        </div>
+      </div>
+    {% endif %}
+
+    </div>
 
       <div class=col-3>
 
+        <h6>Settings</h6>
+
         <p>categories</p>
 
-        <form method="POST" action="">
+        <!--form method="POST" action="/none" id="none">
             <select name = "category">
                 {% for category in get_categories(calendar) %}
                 <option value={{category.id}}>{{ category.name }}</option>
@@ -23,8 +114,7 @@
         {% if not get_categories(calendar) %}
         <p>No existing categories found</p>
         {% endif %}
-        <form method="POST" action="">
-            {{ category_form.csrf_token }}
+        <form method="POST" action="/none" id="none">
             Name for new category:
             {{ category_form.name }}
             <br>    
@@ -32,8 +122,7 @@
             {{ category_form.description }}
             <br>
             <input type="submit" value="create">
-        </form>
+        </form-->
       </div>
     </div>
-    <!--script type="text/javascript" src="/static/calendar.js"></script-->
 {% endblock %}

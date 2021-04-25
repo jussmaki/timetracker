@@ -5,6 +5,20 @@
   <div class="container">
     <div class="columns">
       <div class="col-9">
+        <ul class="tab tab-block">
+          <li class="tab-item{% if request.args.get("view") == "week" %} active{%endif%}">
+            <a href="?view=week">View week</a>
+          </li>
+          <li class="tab-item{% if request.args.get("view") == "month" %} active{%endif%}">
+              <a href="?view=month">View month</a>
+          </li>
+          <li class="tab-item{% if request.args.get("view") == "reports" %} active{%endif%}">
+              <a href="view=reports">Reports</a>
+          </li>
+          <li class="tab-item"">
+              <a href="/calendar/{{ calendar.id }}/settings?tab=basics">Settings</a>
+          </li>
+        </ul>
         <div class="calendar calendar-lg">
           <div class="calendar-navbar">
             <div class="calendar-primary">kuukausi</div>

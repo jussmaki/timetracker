@@ -6,8 +6,11 @@
                 <h6>Register new user</h6>
 
                 {% for field, errors in register_form.errors.items() %}
-                <p>{{ ', '.join(errors) }} </p>
-                {% endfor %}
+                <div id="register_error_{{ field }}" class="toast toast-error">
+                  <button onClick="hideElementById('register_error_{{ field }}')" class="btn btn-clear float-right"></button>
+                  {{ ', '.join(errors) }}
+                </div>
+              {% endfor %}
                 <div class=form-group>
                     <form method="POST" action="/register" id="register_form">
                         {{ register_form.csrf_token }}
