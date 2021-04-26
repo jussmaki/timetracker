@@ -45,7 +45,7 @@ class DeleteCalendar(FlaskForm):
     delete = BooleanField("delete", validators=[DataRequired()])
 
 class CreateCategory(FlaskForm):
-    name = StringField("name", validators=[DataRequired()])
+    name = StringField("name", validators=[DataRequired(), Length(5, 30, message="minimun length for name is 5 and maximum is 30")])
     description = StringField("description", default="")  
 
 class ModifyCategory(FlaskForm):
@@ -55,9 +55,11 @@ class ModifyCategory(FlaskForm):
 class DeleteCategory(FlaskForm):
     delete = BooleanField("delete", validators=[DataRequired()])
       
-class CreateJob(FlaskForm):
+class JobForm(FlaskForm):
     name = StringField("name", validators=[DataRequired()])
-    description = StringField("description", default="")    
+    description = StringField("description", default="")
+    delete = BooleanField("delete", default=False)
+
 class CreateTask(FlaskForm):
     name = StringField("name", validators=[DataRequired()])
     description = StringField("description", default="")

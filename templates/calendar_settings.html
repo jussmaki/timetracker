@@ -95,7 +95,7 @@
         </div>
       </div>
 
-    {% elif request.args.get("tab") == "categories_and_jobs" %}
+    {% elif request.args.get("tab") == "categories_and_jobs" and request.args.get("action", "") == "" %}
     
       {% if not categories %}
         <div class="empty bg-dark">
@@ -118,6 +118,7 @@
               <td>
                 {{ category.description }}
                 <div class="float-right">
+                  <a href="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&action=view_jobs&category_id={{ category.id }}" class="btn btn-primary">Select</a>
                   <div class="popover popover-left">
                     <button class="btn btn-primary">Edit</button>
                     <div class="popover-container">
@@ -176,13 +177,97 @@
 
 
 
+      {% elif request.args.get("tab") == "categories_and_jobs" and request.args.get("action", "") == "view_jobs" %}
+    
+      {% if not jobs %}
+        <div class="empty bg-dark">
+          <p class="empty-title h5">No existing jobs</p>
+          <p class="empty-subtitle">You may want add some</p>
+        </div>
+      {% else %}
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>category</th>
+              <th>job</th>
+              <th>description</th>>
+            </tr>
+          </thead>
+          <tbody>
+            {% for job in jobs %}
+            <tr class="">
+              <td>{{ category.name }}</td>
+              <td>{{ job.name }}</td>
+              <td>
+                {{ job.description }}
+                <div class="float-right">
+                  <div class="popover popover-left">
+                    <button class="btn btn-primary">Edit</button>
+                    <div class="popover-container">
+                      <div class="card text-dark">
+                        <div class="card-header">
+                          Edit
+                        </div>
+                        <div class="card-body">
+                          <div class="form-group">
+                            <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&category_id={{ category.id }}&action=modify_job&job_id={{ job.id }}" id="modify_job_{{ job.id }}_form" autocomplete="off">
+                              {{ job_form.csrf_token }}
+                              <label class="form-label">Name</label>
+                              {{ job_form.name(value=job.name) }}
+                              <label class="form-label">Description</label>
+                              {{ job_form.description(value=job.description) }}
+                            </form>
+                        </div>
+                        </div>
+                        <div class="card-footer">
+                          <button class="btn" type="submit" form="modify_job_{{ job.id }}_form" value="modify">Save</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="popover popover-left">
+                    <button class="btn btn-primary">Delete</button>
+                    <div class="popover-container">
+                      <div class="card text-dark">
+                        <div class="card-header">
+                          Delete
+                        </div>
+                        <div class="card-body">
+                          <div class="form-group">
+                            <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&category_id={{ category.id }}&job_id={{ job.id }}&action=delete_job" id="delete_job_{{ job.id }}_form">
+                                {{ job_form.csrf_token }}
+                                {{ job_form.name(value=job.name, hidden=True) }}
+                                {{ job_form.description(value=job.name, hidden=True) }}
+                                <label class="form-checkbox">
+                                    {{job_form.delete}}
+                                    <i class="form-icon"></i> I want to delete {{ job.name }} job.
+                                </label>
+                            </form>
+                        </div>
+                        </div>
+                        <div class="card-footer">
+                          <button class="btn" type="submit" form="delete_job_{{ job.id }}_form" value="delete">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+
+
 
     {% endif %}
 
 
     </div>
 
-      <div class=col-3>
+      <div class="col-3">
 
         <h4>Settings</h4>
 
@@ -190,33 +275,59 @@
 
         <h6>Basics</h6>
 
-
-
-        {% elif request.args.get("tab") == "categories_and_jobs" %}
-
+        </div>
+        
+        {% elif request.args.get("tab" == "category_and_jobs") %}
 
         <h6>Categories & Jobs</h6>
 
+        {% endif %}
+
+        {% if request.args.get("tab") == "categories_and_jobs" and request.args.get("action", "") == "" %}
+
         <div class="empty bg-dark">
           <div class="empty-title">
-            Add category
-          {% for field, errors in create_category_form.errors.items() %}
-          <div id="create_category_error_{{ field }}" class="toast toast-error">
-            <button onClick="hideElementById('create_category_error_{{ field }}')" class="btn btn-clear float-right"></button>
-            {{ ', '.join(errors) }}
+            {{ calendar.name }}  
           </div>
-        {% endfor %}
+          <div class="empty-subtitle">
+            Add category
+          </div>
           <div class="form-group">
               <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&action=new_category" id="create_category_form">
                   {{ create_category_form.csrf_token }}
-                  <label class="form-label">Name for new category</label>
+                  <label class="form-label">Name</label>
                   {{ create_category_form.name }}
-                  <label class="form-label">Description of new category</label>
+                  <label class="form-label">Description</label>
                   {{ create_category_form.description }}
               </form>
           </div>
           <div class="empty-action">
             <button class="btn btn-primary" type="submit" form="create_category_form" value="create">Create</button>
+          </div>
+        </div>
+        </div>
+
+        {% elif request.args.get("tab") == "categories_and_jobs" and request.args.get("action", "") == "view_jobs" %}
+
+        <div class="empty bg-dark">
+          <a href="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs" class="btn btn-primary">Back to categories</a>
+          <div class="empty-title">
+            {{ category.name }}
+          </div>
+          <div class=empty-subtitle>
+            Add job
+          </div>
+          <div class="form-group">
+              <form method="POST" action="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs&action=new_job&category_id={{ category.id }}" id="create_job_form">
+                  {{ job_form.csrf_token }}
+                  <label class="form-label">Name</label>
+                  {{ job_form.name }}
+                  <label class="form-label">Description</label>
+                  {{ job_form.description }}
+              </form>
+          </div>
+          <div class="empty-action">
+            <button class="btn btn-primary" type="submit" form="create_job_form" value="create">Create</button>
           </div>
         </div>
         </div>

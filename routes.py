@@ -1,7 +1,8 @@
+import re
 from flask.globals import request
 from app import app
 from flask.helpers import flash
-from forms import FlaskForm, DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, ModifyCategory, DeleteCategory, CreateJob, CreateTask, CreateEvent
+from forms import FlaskForm, DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, ModifyCategory, DeleteCategory, JobForm, CreateTask, CreateEvent
 from flask import render_template, redirect
 import users
 import calendars
@@ -72,6 +73,8 @@ def calendar_settings(id: int):
         return "forbidden", 403
     if not request.args.get("tab"):
         return redirect("/calendar/"+str(calendar.id)+"/settings?tab=basics")
+    
+    users_calendars=calendars.get_users_calendars(current_user)
     logout_form = LogoutForm()
     delete_calendar_form = DeleteCalendar()
     delete_calendar_form.expected.data = calendar.name
@@ -79,7 +82,7 @@ def calendar_settings(id: int):
     create_category_form = CreateCategory()
     delete_category_form = DeleteCategory()
     modify_category_form = ModifyCategory()
-    create_job_form = CreateJob()
+    job_form =JobForm()
 
     categories = calendars.get_categories(calendar)
 
@@ -87,6 +90,16 @@ def calendar_settings(id: int):
     tab = request.args.get("tab", "", str)
     action = request.args.get("action", "", str)
     category_id = request.args.get("category_id", None, int)
+    category = None
+    if category_id:
+        category = next(c for c in categories if c.id == category_id)
+    jobs = None
+    job_id = request.args.get("job_id", None, int)
+    if action == "view_jobs" or job_id:
+        jobs = calendars.get_jobs(category)
+    job = None
+    if job_id:
+        job = next(j for j in jobs if j.id == job_id)
 
     if tab == "basics":
         if action == "modify":
@@ -114,7 +127,6 @@ def calendar_settings(id: int):
                 return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
         elif action == "modify_category" and category_id:
             if modify_category_form.validate_on_submit():
-                category = next(c for c in categories if c.id == category_id)
                 category.name = modify_category_form.name.data
                 category.description = modify_category_form.description.data
                 calendars.modify_category(calendar, category)
@@ -127,6 +139,26 @@ def calendar_settings(id: int):
                 if delete_category_form.validate_on_submit():
                     calendars.delete_category(calendar, category_id)
                     return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
+        elif action == "new_job":
+            if job_form.validate_on_submit():
+                calendars.create_new_job(category, job_form.name.data, job_form.description.data)
+            else:
+                flash_errors_in_form(job_form)
+            return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs&action=view_jobs&category_id="+str(category_id))
+        elif action == "modify_job":
+            if job_form.validate_on_submit():
+                job.name = job_form.name.data
+                job.description = job_form.description.data
+                calendars.modify_job(job)
+            else:
+                flash_errors_in_form(job_form)
+            return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs&action=view_jobs&category_id="+str(category_id))
+        elif action == "delete_job":
+            if job_form.validate_on_submit():
+                calendars.delete_job(job)
+            else:
+                flash_errors_in_form(job_form)
+            return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs&action=view_jobs&category_id="+str(category_id))
 
     #print(modify_calendar_form.is_submitted(), create_category_form.is_submitted())
 
@@ -134,8 +166,8 @@ def calendar_settings(id: int):
     #    calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
 
     return render_template("calendar_settings.html",
-    logout_form=logout_form, modify_calendar_form=modify_calendar_form, delete_calendar_form=delete_calendar_form, create_category_form=create_category_form, modify_category_form=modify_category_form, delete_category_form=delete_category_form, job_form=create_job_form,
-    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), categories=categories, get_jobs=calendars.get_jobs, current_user=current_user)
+    logout_form=logout_form, modify_calendar_form=modify_calendar_form, delete_calendar_form=delete_calendar_form, create_category_form=create_category_form, modify_category_form=modify_category_form, delete_category_form=delete_category_form, job_form=job_form,
+    calendar=calendar, users_calendars=users_calendars, categories=categories, jobs=jobs, category=category, current_user=current_user)
 
 #@app.route("/calendar/<int:id>/full", methods=["GET", "POST"])
 #def calendar_testi(id):

@@ -76,3 +76,20 @@ def modify_category(calendar: Calendar, category: Category):
 def get_jobs(category: Category):
     jobs = db.session.query(Job).filter(Job.category==category).all()
     return jobs
+
+def create_new_job(category: Category, name: str, description:str):
+    job = Job(category_id = category.id, name = name, description = description)
+    db.session.add(job)
+    db.session.commit()
+
+def modify_job(job: Job):
+    #db.session.query(Category).filter(Category.id == category.id, Category.calendar_id.id == calendar.id).update(
+    #    {Category.name: category.name, Category.description: calendar.description})
+    #db.session.commit()    
+    db.session.query(Job).filter(Job.id == job.id).update(
+        {Job.name: job.name, Job.description: job.description})
+    db.session.commit()    
+
+def delete_job(job: Job):
+    db.session.query(Job).filter(Job.id == job.id).delete()
+    db.session.commit()
