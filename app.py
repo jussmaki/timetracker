@@ -13,5 +13,5 @@ import routes
 @app.before_first_request
 def initialize_database():
     from db import db
-    db.drop_all()
+    #db.drop_all()
     db.create_all()
