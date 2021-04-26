@@ -46,10 +46,10 @@ Kalenterin omistaja ja käyttäjä, jolla on samat oikeudet kuin omistajalla tai
 * [x] Lisätä kalenteriin kategorian
 * [x] Poistaa kalenterista kategorian
 * [x] Muokata kategoridoiden tietoja
-* [ ] Lisätä kategorialle työn (job)
+* [x] Lisätä kategorialle työn (job)
 * [ ] Siirtää työn eri kategoriaan
-* [ ] Muokata työn tietoja (nimi)
-* [ ] Poistaa työn
+* [x] Muokata työn tietoja (nimi)
+* [x] Poistaa työn
 
 Kalenterin omistaja ja käyttäjä, jolla on samat oikeudet kuin omistajalla voi:
 
@@ -63,9 +63,9 @@ Kalenterin omistaja ja käyttäjä, jolla on samat oikeudet kuin omistajalla voi
 > Tehtävällä on nimi, selitys ja arvioitu kesto
 
 Julkisessa kalenterissa kirjautunut käyttäjä ja yksityisessä kalenterissa kalenterin omistaja ja käyttäjä, jolla on samat oikeudet kuin omistajalla tai kalenterin katseluoikus voi:
-* [x] katsoa kalenteria tehtäviä viikkonäkymässä
+* [ ] katsoa kalenteria tehtäviä viikkonäkymässä
 * [ ] katsoa kalenteria tehtäviä kuukausinäkymässä
-* [x] katsoa kalenteria toteumia viikkonäkymässä
+* [ ] katsoa kalenteria toteumia viikkonäkymässä
 * [ ] katsoa kalenteria toteumia kuukausinäkymässä
 * [ ] katsoa tehtävälistaa
 
