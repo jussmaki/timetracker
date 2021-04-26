@@ -1,6 +1,6 @@
 # timetracker
 
-Sovelluksen avulla voi pitää kirjaa ajankäytöstään. Sovelluksella kirjautumattomia ja kirjautuneita käyttäjiä. Kirjautumattomat käyttäjät voivat kirjautua sisään, luoda uuden käyttäjän ja kirjautua sovellukseen. Kirjautuneilla käyttäjillä on kalentereihin erilaisia oikeuksia.
+Sovelluksen avulla voi pitää kirjaa ajankäytöstään. Sovelluksella kirjautumattomia ja kirjautuneita käyttäjiä. Kirjautumattomat käyttäjät voivat kirjautua sisään, luoda uuden käyttäjän ja kirjautua sovellukseen. Jos aikaa jää, toteutan kalenteriin mahdollisuuden kirjautuneilla käyttäjille antaa kalentereihin erilaisia oikeuksia toisille käyttäjille. Tähän liittyvät kohdat on merkitty vaatimusmäärittelyssä tähdellä.
 
 ## Sovellus Herokussa
 
@@ -33,7 +33,7 @@ Kirjautunut käyttäjä voi:
 * [x] Luoda uuden julkisen tai yksityisen kalenterin ja asettaa sille nimen ja kuvauksen.
 * [x] Valita kalenterin 
 * [x] Tarkastella olemassa olevia omia kalentereita
-* [ ] Tarkastella olemassa olevia kalentereita, joihin hänelle on annettu katseluoikeus
+* [ ] Tarkastella olemassa olevia kalentereita, joihin hänelle on annettu katseluoikeus*
 * [x] Valita kalenterin
 
 #### reitti `/calendar/<id>/settings`
@@ -54,9 +54,9 @@ Kalenterin omistaja ja käyttäjä, jolla on samat oikeudet kuin omistajalla tai
 Kalenterin omistaja ja käyttäjä, jolla on samat oikeudet kuin omistajalla voi:
 
 * [x] Poistaa kalenterin
-* [ ] Lisätä kalenteriin käyttäjille oikeuksia (view_calendar, modify_calendar, same_as_owner)
-* [ ] Muokata käyttäjien oikeuksia
-* [ ] Poistaa käyttäjältä kaikki oikeudet
+* [ ] Lisätä kalenteriin käyttäjille oikeuksia (view_calendar, modify_calendar, same_as_owner)*
+* [ ] Muokata käyttäjien oikeuksia*
+* [ ] Poistaa käyttäjältä kaikki oikeudet*
 
 #### reitti `/calendar/<id>`
 
