@@ -2,13 +2,11 @@
 <html>
 <head>
   <title>Timetracker</title>
-  <!--muista päivittää näihin versiot-->
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css@0.5.9/dist/spectre.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css@0.5.9/dist/spectre-exp.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css@0.5.9/dist/spectre-icons.min.css">
   <script type="text/javascript" src="/static/timetracker.js"></script>
 </head>
-<!--body><!--class="bg-dark"-->
  
 <body class="bg-dark"> 
   <header class="navbar">
@@ -62,9 +60,6 @@
           </div>
         </div>
       </section>
-      <!--section class="navbar-section">
-        <a href="/calendars">Calendars</a>
-      </section-->
       <section class="navbar-section">
         {{ current_user.realname }}
         <form method="POST" action="/logout" id="logout_form">
