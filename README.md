@@ -66,12 +66,14 @@ Kalenterin omistaja voi:
 * [ ] Lisätä tehtäville toteuman (event)
 * [ ] Muokata toteumaa
 * [ ] Poistaa toteuman
+* [ ] Katsoa kuukausinäkymässä kalenterin tehtävälistoja
 
 Kirjautunut käyttäjä:
 * [ ] katsoa kalenteria tehtäviä viikkonäkymässä
 * [ ] katsoa kalenteria tehtäviä viikkonäkymässä
 * [ ] katsoa kalenteria toteumia viikkonäkymässä
 * [ ] katsoa viikon tehtävälistaa
+* [ ] Katsoa kuukausinäkymässä kalenterin tehtävälistoja
 
 #### reitti `/calendar/<id>/raport`
 
