@@ -1,11 +1,8 @@
-from models import Category
-from wtforms import validators
 from wtforms.fields.core import BooleanField
-from wtforms.fields.simple import HiddenField
 from app import app
 from users import user_exists
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, PasswordField, IntegerField, DateTimeField
+from wtforms import StringField, PasswordField, IntegerField
 from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
 from os import getenv
 

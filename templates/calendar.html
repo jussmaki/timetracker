@@ -113,19 +113,18 @@
 
       {% endfor %}
 
-
-      {% if not tasks %}
-
-      <div class="empty bg-dark">
-        <p class="empty-title h5">No categories and jobs to add tasks</p>
-        <p class="empty-subtitle">You may want add some first in tab Categories&Jobs</p>
-      </div>
-
-      {% endif %}
-
       </div>
 
       <div class=col-3>
+
+        {% if not tasks %}
+
+        <div class="empty bg-dark">
+          <p class="empty-title h5">No jobs to add tasks for</p>
+          <p class="empty-subtitle">You may want add some first in tab Categories&Jobs</p>
+        </div>
+  
+        {% endif %}
 
         {% if request.args.get("task_id") %}
 

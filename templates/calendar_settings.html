@@ -48,10 +48,11 @@
                     {{ modify_calendar_form.name(value=calendar.name) }}
                     <label class="form-label">Description</label>
                     {{ modify_calendar_form.description(value=calendar.description) }}
-                    <label class="form-checkbox">
+                    {{ modify_calendar_form.private(value=calendar.private, hidden=True) }}
+                    <!--label class="form-checkbox">
                         {{modify_calendar_form.private(value=calendar.private)}}
                         <i class="form-icon"></i> Private
-                    </label>
+                    </label-->
                 </form>
             </div>
         </div>
