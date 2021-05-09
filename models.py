@@ -72,7 +72,7 @@ class Event(db.Model):
     task_id = Column(ForeignKey('tasks.id'))
     start_time = Column(DateTime)
     end_time = Column(DateTime)
-    planned_time = Column(Integer)
+    #planned_time = Column(Integer)
     actual_time = Column(Integer)
 
     task = relationship('Task')
