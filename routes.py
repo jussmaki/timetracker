@@ -199,13 +199,23 @@ def calendar(id):
         else:
             flash_errors_in_form(task_form)
         return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
-
+    elif action == "modify_task":
+        if task_form.validate_on_submit():
+            task.name = task_form.name.data
+            task.description = task_form.description.data
+            task.done = task_form.done.data
+            task.planned_time = task_form.actual_time.data
+            task.actual_time = task_form.actual_time.data
+            calendars.modify_task(task)
+        else:
+            flash_errors_in_form(task_form)
+        return redirect("/calendar/"+str(calendar.id)+"?view=tasks&task_id="+str(task_id))
 
     if not request.args.get("view"):
         return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
 
     return render_template("calendar.html",
-    logout_form=logout_form, task_form=task_form, calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), jobs=jobs, tasks=tasks, current_user=current_user)
+    logout_form=logout_form, task_form=task_form, calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), jobs=jobs, tasks=tasks, selected_task=task, current_user=current_user)
 
 def flash_errors_in_form(form: FlaskForm):
     for field, errors in form.errors.items():

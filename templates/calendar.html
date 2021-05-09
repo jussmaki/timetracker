@@ -31,7 +31,7 @@
 
     <div>
         <div class="form-group">
-            <form method="POST" action="/calendar/{{ calendar.id }}?action=new_task&job_id={{ job.id }}" id="task_form">
+            <form method="POST" action="/calendar/{{ calendar.id }}?action=new_task&job_id={{ job.id }}" id="new_task_form_{{ job.id }}">
                 {{ task_form.csrf_token }}
                 <label class="form-inline">Create new task in {{ job.name }}</label>
                 <label class="form-inline">Task</label>
@@ -40,7 +40,7 @@
                 {{ task_form.description }}
                 <label class="form-inline">Planned time (minutes)</label>
                 {{ task_form.planned_time }}
-                <button class="btn btn-primary float-right" type="submit" form="task_form" value="create">Create new task</button>
+                <button class="btn btn-primary float-right" type="submit" form="new_task_form_{{ job.id }}" value="create">Create new task</button>
             </form>
         </div>
 
@@ -118,7 +118,7 @@
 
       <div class="empty bg-dark">
         <p class="empty-title h5">No categories and jobs to add tasks</p>
-        <p class="empty-subtitle">You may want add some first in tab Categories&jobs</p>
+        <p class="empty-subtitle">You may want add some first in tab Categories&Jobs</p>
       </div>
 
       {% endif %}
@@ -127,8 +127,39 @@
 
       <div class=col-3>
 
+        {% if request.args.get("task_id") %}
 
+        <div class="empty bg-dark">
+          <a href="/calendar/{{ calendar.id }}?view=tasks" class="btn btn-primary">Hide</a>
+          <div class="empty-title">
+            {{ selected_task.name }}
+          </div>
+          <div class=empty-subtitle>
+            Edit task
+          </div>
 
+            <div class="form-group">
+              <form method="POST" action="/calendar/{{ calendar.id }}?action=modify_task&task_id={{ selected_task.id }}" id="modify_task_{{ selected_task.id }}_form" autocomplete="off">
+                {{ task_form.csrf_token }}
+                <label class="form-label">Name</label>
+                {{ task_form.name(value=selected_task.name) }}
+                <label class="form-label">Description</label>
+                {{ task_form.description(value=selected_task.description) }}
+                <label class="form-label">Planned time (min)</label>
+                {{ task_form.planned_time(value=selected_task.planned_time) }}
+                <label class="form-label">Actual time (min)</label>
+                {{ task_form.actual_time(value=selected_task.actual_time) }}
+                <label class="form-label">Done</label>
+                {{ task_form.done(value=selected_task.done) }}
+              </form>
+          </div>
+          <div class="empty_action">
+            <button class="btn btn-primary" type="submit" form="modify_task_{{ selected_task.id }}_form" value="modify">Save</button>
+          </div>
+
+        </div>
+
+        {% endif %}
 
       </div>
     </div>

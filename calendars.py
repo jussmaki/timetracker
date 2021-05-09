@@ -107,6 +107,11 @@ def delete_task(task: Task):
     db.session.query(Task).filter(Task.id == task.id).delete()
     db.session.commit()
 
+def modify_task(task: Task): 
+    db.session.query(Task).filter(Task.id == task.id).update(
+        {Task.name: task.name,Task.description: task.description, Task.done: task.done, Task.planned_time: task.planned_time, Task.actual_time: task.actual_time})
+    db.session.commit()    
+
 def get_tasks(calendar: Calendar):
     
     tasks = db.session.query(Task).select_from(Calendar).join(Category, Category.calendar_id == Calendar.id).join(Job, Job.category_id == Category.id).join(Task, Task.job_id == Job.id).filter(Calendar.id == calendar.id).all()
