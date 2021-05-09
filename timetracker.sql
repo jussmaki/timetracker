@@ -14,7 +14,7 @@ CREATE TABLE calendars (
 	description TEXT, 
 	private BOOLEAN DEFAULT true NOT NULL, 
 	PRIMARY KEY (id), 
-	FOREIGN KEY(owner_id) REFERENCES users (id)
+	FOREIGN KEY(owner_id) REFERENCES users (id) ON DELETE CASCADE
 )
 
 CREATE TABLE categories (
@@ -23,7 +23,7 @@ CREATE TABLE categories (
 	name TEXT NOT NULL, 
 	description TEXT, 
 	PRIMARY KEY (id), 
-	FOREIGN KEY(calendar_id) REFERENCES calendars (id)
+	FOREIGN KEY(calendar_id) REFERENCES calendars (id) ON DELETE CASCADE
 )
 
 CREATE TABLE jobs (
@@ -32,7 +32,7 @@ CREATE TABLE jobs (
 	name TEXT NOT NULL, 
 	description TEXT, 
 	PRIMARY KEY (id), 
-	FOREIGN KEY(category_id) REFERENCES categories (id)
+	FOREIGN KEY(category_id) REFERENCES categories (id) ON DELETE CASCADE
 )
 
 CREATE TABLE tasks (
@@ -44,5 +44,5 @@ CREATE TABLE tasks (
 	planned_time INTEGER DEFAULT 0, 
 	actual_time INTEGER DEFAULT 0, 
 	PRIMARY KEY (id), 
-	FOREIGN KEY(job_id) REFERENCES jobs (id)
+	FOREIGN KEY(job_id) REFERENCES jobs (id) ON DELETE CASCADE
 )

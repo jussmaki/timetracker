@@ -15,7 +15,7 @@ class Calendar(db.Model):
     __tablename__ = 'calendars'
 
     id = Column(Integer, primary_key=True)
-    owner_id = Column(ForeignKey('users.id'))
+    owner_id = Column(ForeignKey('users.id', ondelete='CASCADE'))
     name = Column(Text)
     description = Column(Text)
     private = Column(Boolean, nullable=False, server_default=text('true'))
@@ -26,7 +26,7 @@ class Category(db.Model):
     __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True)
-    calendar_id = Column(ForeignKey('calendars.id'))
+    calendar_id = Column(ForeignKey('calendars.id', ondelete='CASCADE'))
     name = Column(Text, nullable=False)
     description = Column(Text)
 
@@ -36,7 +36,7 @@ class Job(db.Model):
     __tablename__ = 'jobs'
 
     id = Column(Integer, primary_key=True)
-    category_id = Column(ForeignKey('categories.id'))
+    category_id = Column(ForeignKey('categories.id', ondelete='CASCADE'))
     name = Column(Text, nullable=False)
     description = Column(Text)
 
@@ -46,7 +46,7 @@ class Task(db.Model):
     __tablename__ = 'tasks'
 
     id = Column(Integer, primary_key=True)
-    job_id = Column(ForeignKey('jobs.id'))
+    job_id = Column(ForeignKey('jobs.id', ondelete='CASCADE'))
     name = Column(Text, nullable=False)
     description = Column(Text)
     done = Column(Boolean, nullable=False, server_default=text('false'))
