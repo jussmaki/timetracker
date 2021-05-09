@@ -28,7 +28,6 @@ def get_users_calendars(user: User):
 def get_calendar_by_id(id: int):
     return db.session.query(Calendar).filter_by(id=id).first()
 
-
 def current_user_is_calendar_owner(calendar: Calendar):
     if calendar is None:
         return False
