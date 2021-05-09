@@ -121,11 +121,11 @@ def calendar_settings(id: int):
                 return redirect("/calendars")
     elif tab == "categories_and_jobs":
         if action == "new_category":
-                if create_category_form.validate_on_submit():
-                    calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
-                else:
-                    flash_errors_in_form(create_category_form)
-                return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
+            if create_category_form.validate_on_submit():
+                calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
+            else:
+                flash_errors_in_form(create_category_form)
+            return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs")
         elif action == "modify_category" and category_id:
             if modify_category_form.validate_on_submit():
                 category.name = modify_category_form.name.data
@@ -161,32 +161,10 @@ def calendar_settings(id: int):
                 flash_errors_in_form(job_form)
             return redirect("/calendar/"+str(calendar.id)+"/settings?tab=categories_and_jobs&action=view_jobs&category_id="+str(category_id))
 
-    #print(modify_calendar_form.is_submitted(), create_category_form.is_submitted())
-
-    #if create_category_form.validate_on_submit():
-    #    calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
-
     return render_template("calendar_settings.html",
     logout_form=logout_form, modify_calendar_form=modify_calendar_form, delete_calendar_form=delete_calendar_form, create_category_form=create_category_form, modify_category_form=modify_category_form, delete_category_form=delete_category_form, job_form=job_form,
     calendar=calendar, users_calendars=users_calendars, categories=categories, jobs=jobs, category=category, current_user=current_user)
 
-#@app.route("/calendar/<int:id>/full", methods=["GET", "POST"])
-#def calendar_testi(id):
-#    calendar = calendars.get_calendar_by_id(id)
-#    if not calendars.current_user_is_calendar_owner(calendar):
-#        return "forbidden", 403
-#    
-#    create_category_form = CreateCategory()
-#    create_job_form = CreateJob()
-#    create_task_form = CreateTask()
-#    create_event_form = CreateEvent()
-#
-#    if create_category_form.validate_on_submit():
-#        calendars.create_new_category(calendar, create_category_form.name.data, create_category_form.description.data)
-#
-#    return render_template("full.html",
-#    category_form=create_category_form, job_form=create_job_form, task_form=create_task_form, event_form=create_event_form,
-#    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_categories=calendars.get_categories, get_jobs=calendars.get_jobs, current_user=current_user)
 
 @app.route("/calendar/<int:id>", methods=["GET", "POST"])
 @login_required
@@ -198,13 +176,29 @@ def calendar(id):
         return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
 
     logout_form = LogoutForm()
-
     task_form = TaskForm()
 
-    #tasks = calemdars
+    #form actions
+    action = request.args.get("action", "", str)
+    if action == "new_job":
+        if task_form.validate_on_submit():
+            calendars.create_new_task(calendar, task_form.name.data, task_form.description.data, task_form.planned_time.data)
+        else:
+            flash_errors_in_form(task_form)
+        return redirect("/calendar/"+str(calendar.id)+"/settings?view=tasks")
+
+    tasks = calendars.get_tasks(calendar) #.get_all_calendar_data(calendar)) # rename to all calendar data
+
+    print(len(tasks))
+    print(tasks)
+    for value in tasks:
+        print(value)
+    #tasks = None
+
+    #tasks = all_calendar_data.tasks
 
     return render_template("calendar.html",
-    logout_form=logout_form, task_form=task_form, calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_jobs=calendars.get_jobs, current_user=current_user)
+    logout_form=logout_form, task_form=task_form, calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), tasks=tasks, current_user=current_user)
 
 def flash_errors_in_form(form: FlaskForm):
     for field, errors in form.errors.items():
