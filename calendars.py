@@ -38,15 +38,9 @@ def current_user_is_calendar_owner(calendar: Calendar):
 
 def current_user_has_modify_rights(calendar: Calendar):
     return current_user_is_calendar_owner(calendar)
-    #if calendar is None:
-    #    return False
-    #if (db.session.query(Calendar).
-    #if (db.session.query(Calendar).filter_by(id=calendar.id, owner_id=current_user.id).first()):
-    #    return True
-    #return False
 
 def calendar_is_public_or_current_user_has_view_rights(calendar: Calendar):
-    #to be done
+    #check for view right to be implemented in future
     return current_user_is_calendar_owner(calendar)
 
 def current_user_has_owner_rights(calendar: Calendar):
@@ -65,10 +59,7 @@ def delete_category(calendar: Calendar, category_id: int):
     db.session.query(Category).filter(Category.id == category_id, Category.calendar_id == calendar.id).delete()
     db.session.commit()
 
-def modify_category(calendar: Calendar, category: Category):
-    #db.session.query(Category).filter(Category.id == category.id, Category.calendar_id.id == calendar.id).update(
-    #    {Category.name: category.name, Category.description: calendar.description})
-    #db.session.commit()    
+def modify_category(calendar: Calendar, category: Category): 
     db.session.query(Category).filter(Category.id == category.id).update(
         {Category.name: category.name, Category.description: category.description})
     db.session.commit()    
@@ -78,7 +69,9 @@ def get_jobs(category: Category):
     return jobs
 
 def get_jobs_by_calendar(calendar: Calendar):
-    jobs = db.session.query(Job).select_from(Calendar).join(Category, Category.calendar_id == Calendar.id).join(Job, Job.category_id == Category.id).filter(Calendar.id == calendar.id).all()
+    jobs = db.session.query(Job).select_from(Calendar).join(
+        Category, Category.calendar_id == Calendar.id).join(
+            Job, Job.category_id == Category.id).filter(Calendar.id == calendar.id).all()
     return jobs
 
 def create_new_job(category: Category, name: str, description:str):
@@ -87,9 +80,6 @@ def create_new_job(category: Category, name: str, description:str):
     db.session.commit()
 
 def modify_job(job: Job):
-    #db.session.query(Category).filter(Category.id == category.id, Category.calendar_id.id == calendar.id).update(
-    #    {Category.name: category.name, Category.description: calendar.description})
-    #db.session.commit()    
     db.session.query(Job).filter(Job.id == job.id).update(
         {Job.name: job.name, Job.description: job.description})
     db.session.commit()    
@@ -109,19 +99,15 @@ def delete_task(task: Task):
 
 def modify_task(task: Task): 
     db.session.query(Task).filter(Task.id == task.id).update(
-        {Task.name: task.name,Task.description: task.description, Task.done: task.done, Task.planned_time: task.planned_time, Task.actual_time: task.actual_time})
+        {Task.name: task.name,Task.description: task.description,
+        Task.done: task.done, Task.planned_time: task.planned_time,
+        Task.actual_time: task.actual_time})
     db.session.commit()    
 
 def get_tasks(calendar: Calendar):
     
-    tasks = db.session.query(Task).select_from(Calendar).join(Category, Category.calendar_id == Calendar.id).join(Job, Job.category_id == Category.id).join(Task, Task.job_id == Job.id).filter(Calendar.id == calendar.id).all()
-    
-
-    #tasks = db.session.query(Calendar, Category, Job, Task).join(Category, Category.calendar_id == Calendar.id).join(Job, Job.category_id == Category.id).join(Task, Task.job_id == Job.id).filter(Calendar.id == calendar.id).all()
-    
-    #tasks = db.session.query(Calendar, Category, Job, Task).select_from(Task).join(Category).join(Job).join(Task).filter(Calendar.id == calendar.id).all()
-    
-    #.filter(Calendar.id == calendar.id).all()
-    
-    #).filter(Job.category==category).all()
+    tasks = db.session.query(Task).select_from(Calendar).join(
+        Category, Category.calendar_id == Calendar.id).join(
+            Job, Job.category_id == Category.id).join(
+                Task, Task.job_id == Job.id).filter(Calendar.id == calendar.id).all()
     return tasks
