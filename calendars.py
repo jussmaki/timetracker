@@ -77,6 +77,10 @@ def get_jobs(category: Category):
     jobs = db.session.query(Job).filter(Job.category==category).all()
     return jobs
 
+def get_jobs_by_calendar(calendar: Calendar):
+    jobs = db.session.query(Job).select_from(Calendar).join(Category, Category.calendar_id == Calendar.id).join(Job, Job.category_id == Category.id).filter(Calendar.id == calendar.id).all()
+    return jobs
+
 def create_new_job(category: Category, name: str, description:str):
     job = Job(category_id = category.id, name = name, description = description)
     db.session.add(job)
@@ -92,6 +96,11 @@ def modify_job(job: Job):
 
 def delete_job(job: Job):
     db.session.query(Job).filter(Job.id == job.id).delete()
+    db.session.commit()
+
+def create_new_task(job: Job, name: str, description: str, planned_time: int):
+    task = Task(job_id=job.id, name=name, description=description, planned_time=planned_time)
+    db.session.add(task)
     db.session.commit()
 
 def get_tasks(calendar: Calendar):

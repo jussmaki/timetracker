@@ -24,11 +24,59 @@
         {% endfor %}
           
 
-        {% if not taks %}
-        <div class="empty bg-dark">
-          <p class="empty-title h5">No existing tasks</p>
-          <p class="empty-subtitle">You may want add some</p>
+
+
+      {% for job in jobs %}
+
+
+    <div>
+        <div class="form-group">
+            <form method="POST" action="/calendar/{{ calendar.id }}?action=new_task&job_id={{ job.id }}" id="task_form">
+                {{ task_form.csrf_token }}
+                <label class="form-inline">Create new task in {{ job.name }}</label>
+                <label class="form-inline">Task</label>
+                {{ task_form.name }}
+                <label class="form-inline">Description</label>
+                {{ task_form.description }}
+                <label class="form-inline">Planned time (minutes)</label>
+                {{ task_form.planned_time }}
+                <button class="btn btn-primary" type="submit" form="task_form" value="create">Create</button>
+            </form>
         </div>
+
+        
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>job name</th>
+            <th>job description</th>
+            <th>task name</th>
+            <th>task description</th>
+            <th>planned time</th>
+            <th>actual time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+            {% if job.id == task.job_id %}
+            <th>{{ job.name }}</th>
+            <th>{{ job.description }}</th>
+            <th>{{ task.name }}</th>
+            <th>{{ task.description }}</th>
+            <th>{{ task.planned_time }} min</th>
+            <th>{{ task.actual_time }} min</th>
+            {% endif %}
+          {% endfor %}
+          </tbody>
+
+          </table>
+        </div>
+
+      {% endfor %}
+
+
+      {% if not tasks %}
+
       {% else %}
 
         tähänkin väliin koodia
@@ -39,28 +87,10 @@
       </div>
 
       <div class=col-3>
-        <div class="empty bg-dark">
-          <div class="empty-title">
-            {{ calendar.name }}  
-          </div>
-          <div class="empty-subtitle">
-            Add task
-          </div>
-          <div class="form-group">
-              <form method="POST" action="/calendar/{{ calendar.id }}?action=new_task" id="task_form">
-                  {{ task_form.csrf_token }}
-                  <label class="form-label">Name</label>
-                  {{ task_form.name }}
-                  <label class="form-label">Description</label>
-                  {{ task_form.description }}
-                  <label class="form-label">Planned time (minutes)</label>
-                  {{ task_form.planned_time }}
-              </form>
-          </div>
-          <div class="empty-action">
-            <button class="btn btn-primary" type="submit" form="task_form" value="create">Create</button>
-          </div>
-        </div>
+
+
+
+
       </div>
     </div>
   </div>

@@ -172,35 +172,33 @@ def calendar(id):
     calendar = calendars.get_calendar_by_id(id)
     if not calendars.calendar_is_public_or_current_user_has_view_rights(calendar):
         return "forbidden", 403
-    if not request.args.get("view"):
-        return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
 
     logout_form = LogoutForm()
     task_form = TaskForm()
+    jobs = calendars.get_jobs_by_calendar(calendar)
+    tasks = calendars.get_tasks(calendar) #.get_all_calendar_data(calendar)) # rename to all calendar data
 
     #form actions
     action = request.args.get("action", "", str)
-    if action == "new_job":
+    job_id = request.args.get("job_id", None, int)
+    if job_id:
+        job = next(j for j in jobs if j.id == job_id)
+    if action == "new_task":
         if task_form.validate_on_submit():
-            calendars.create_new_task(calendar, task_form.name.data, task_form.description.data, task_form.planned_time.data)
+            calendars.create_new_task(job, task_form.name.data, task_form.description.data, task_form.planned_time.data)
         else:
             flash_errors_in_form(task_form)
-        return redirect("/calendar/"+str(calendar.id)+"/settings?view=tasks")
+        return redirect("/calendar/"+str(calendar.id)+"/calendar?view=tasks")
 
-    tasks = calendars.get_tasks(calendar) #.get_all_calendar_data(calendar)) # rename to all calendar data
 
-    print(len(tasks))
-    print(tasks)
-    for value in tasks:
-        print(value)
-    #tasks = None
-
-    #tasks = all_calendar_data.tasks
+    if not request.args.get("view"):
+        return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
 
     return render_template("calendar.html",
-    logout_form=logout_form, task_form=task_form, calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), tasks=tasks, current_user=current_user)
+    logout_form=logout_form, task_form=task_form, calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), jobs=jobs, tasks=tasks, current_user=current_user)
 
 def flash_errors_in_form(form: FlaskForm):
     for field, errors in form.errors.items():
         for error in errors:
             flash(error)
+
