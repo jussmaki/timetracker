@@ -67,3 +67,4 @@ class TaskForm(FlaskForm):
     done = BooleanField("done", default=False)
     planned_time = IntegerField("planned_time", default=0)
     actual_time = IntegerField("actual_time", default=0)
+    delete = BooleanField("delete", default=False)

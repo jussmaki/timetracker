@@ -181,14 +181,24 @@ def calendar(id):
     #form actions
     action = request.args.get("action", "", str)
     job_id = request.args.get("job_id", None, int)
+    task_id = request.args.get("task_id", None, int)
     if job_id:
         job = next(j for j in jobs if j.id == job_id)
+    task = None
+    if task_id:
+        task = next(t for t in tasks if t.id == task_id)
     if action == "new_task":
         if task_form.validate_on_submit():
             calendars.create_new_task(job, task_form.name.data, task_form.description.data, task_form.planned_time.data)
         else:
             flash_errors_in_form(task_form)
-        return redirect("/calendar/"+str(calendar.id)+"/calendar?view=tasks")
+        return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
+    elif action == "delete_task":
+        if task_form.validate_on_submit():
+            calendars.delete_task(task)
+        else:
+            flash_errors_in_form(task_form)
+        return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
 
 
     if not request.args.get("view"):

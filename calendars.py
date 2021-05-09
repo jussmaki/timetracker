@@ -103,6 +103,10 @@ def create_new_task(job: Job, name: str, description: str, planned_time: int):
     db.session.add(task)
     db.session.commit()
 
+def delete_task(task: Task):
+    db.session.query(Task).filter(Task.id == task.id).delete()
+    db.session.commit()
+
 def get_tasks(calendar: Calendar):
     
     tasks = db.session.query(Task).select_from(Calendar).join(Category, Category.calendar_id == Calendar.id).join(Job, Job.category_id == Category.id).join(Task, Task.job_id == Job.id).filter(Calendar.id == calendar.id).all()
