@@ -1,6 +1,6 @@
 # timetracker
 
-Sovelluksen avulla voi pitää kirjaa ajankäytöstään. Sovelluksella on kirjautumattomia ja kirjautuneita käyttäjiä. Kirjautumattomat käyttäjät voivat kirjautua sisään, luoda uuden käyttäjän ja kirjautua sovellukseen.
+Sovelluksen avulla voi pitää kirjaa tehdyistä ja tekemättömistä tehtävistä. Sovelluksella on kirjautumattomia ja kirjautuneita käyttäjiä. Kirjautumattomat käyttäjät voivat kirjautua sisään, luoda uuden käyttäjän ja kirjautua sovellukseen.
 
 ## Sovellus Herokussa
 
@@ -14,69 +14,47 @@ https://warm-crag-55403.herokuapp.com/
 
 #### reitti `/register`
 
-* [x] Luoda uuden käyttäjätunnuksen
+* Luoda uuden käyttäjätunnuksen
 
 ##### reitti `/login`
 
-* [x] Kirjautua olemassa olevalla käyttäjätunnuksella
+* Kirjautua olemassa olevalla käyttäjätunnuksella
 
 ### Kirjautuneen käyttäjän toiminnot
 
-* [x] Kirjautua ulos
+* Kirjautua ulos
 
 #### reitti `/calendars`
 
-> Kalenterilla on omistaja, nimi ja kuvaus. Kalenteri voi olla yksityinen tai julkinen.
 
 Kirjautunut käyttäjä voi:
 
-* [x] Luoda uuden julkisen tai yksityisen kalenterin ja asettaa sille nimen ja kuvauksen.
-* [x] Valita kalenterin 
-* [x] Tarkastella olemassa olevia omia kalentereita
-* [x] Valita kalenterin
+*  Luoda uuden kalenterin ja asettaa sille nimen ja kuvauksen.
+*  Valita kalenterin 
+*  Tarkastella olemassa olevia omia kalentereitaan
+*  Valita kalenterin
 
 #### reitti `/calendar/<id>/settings`
-    
+
 Kalenterin omistaja voi:
 
-* [x] Katsoa kalenterin nimen ja kuvauksen
-* [x] Muokata kalenterin nimeä ja kuvausta
-* [x] Vaihtaa kalenterin yksityisestä julkiseksi, ja julkisesta yksityiseksi
-* [x] Lisätä kalenteriin kategorian
-* [x] Poistaa kalenterista kategorian
-* [x] Muokata kategoridoiden tietoja
-* [x] Lisätä kategorialle työn (job)
-* [x] Muokata työn tietoja (nimi)
-* [x] Poistaa työn
-* [x] Poistaa kalenterin
+* Katsoa kalenterin nimen ja kuvauksen
+* Muokata kalenterin nimeä ja kuvausta
+* Lisätä kalenteriin kategorian
+* Poistaa kalenterista kategorian
+* Muokata kategoridoiden tietoja
+* Lisätä kategorialle työn
+* Muokata työn tietoja (nimi ja kuvaus)
+* Poistaa työn
+* Poistaa kalenterin
 
 
 #### reitti `/calendar/<id>`
 
-> Tehtävällä on nimi, selitys ja arvioitu kesto
+> Tehtävällä on nimi, selitys, arvioitu kesto ja toteutunut kesto
 
 Kalenterin omistaja voi:
-* [ ] katsoa kalenteria tehtäviä viikkonäkymässä
-* [ ] katsoa kalenteria tehtäviä viikkonäkymässä
-* [ ] katsoa kalenteria toteumia viikkonäkymässä
-* [ ] katsoa viikon tehtävälistaa
-* [ ] Lisätä eri päiville tehtäviä
-* [ ] Muokata tehtävää
-* [ ] Poistaa tehtävän
-* [ ] Lisätä tehtäville toteuman (event)
-* [ ] Muokata toteumaa
-* [ ] Poistaa toteuman
-* [ ] Katsoa kuukausinäkymässä kalenterin tehtävälistoja
 
-Kirjautunut käyttäjä:
-* [ ] katsoa kalenteria tehtäviä viikkonäkymässä
-* [ ] katsoa kalenteria tehtäviä viikkonäkymässä
-* [ ] katsoa kalenteria toteumia viikkonäkymässä
-* [ ] katsoa viikon tehtävälistaa
-* [ ] Katsoa kuukausinäkymässä kalenterin tehtävälistoja
-
-#### reitti `/calendar/<id>/raport`
-
-Kalenterin omistaja voi:
-* [ ] Katsoa raporttia kuluvan viikon ajankäytöstä
-* [ ] Katsoa raporttia muiden viikkojen ajankäytöstä
+* katsoa kalenteria tehtäviä
+* Muokata tehtävää
+* Poistaa tehtävän
