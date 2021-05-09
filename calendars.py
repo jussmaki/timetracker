@@ -1,5 +1,5 @@
 from db import db
-from models import User, Calendar, Category, Job, Task, Event
+from models import User, Calendar, Category, Job, Task
 from flask_login import current_user
 
 def create_new_calendar(name: str, description: str):

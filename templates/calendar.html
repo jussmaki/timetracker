@@ -6,226 +6,63 @@
     <div class="columns">
       <div class="col-9">
         <ul class="tab tab-block">
-          <li class="tab-item{% if request.args.get("view") == "week" %} active{%endif%}">
-            <a href="?view=week">View week</a>
-          </li>
-          <li class="tab-item{% if request.args.get("view") == "month" %} active{%endif%}">
-              <a href="?view=month">View month</a>
-          </li>
-          <li class="tab-item{% if request.args.get("view") == "reports" %} active{%endif%}">
-              <a href="view=reports">Reports</a>
-          </li>
-          <li class="tab-item"">
-              <a href="/calendar/{{ calendar.id }}/settings?tab=basics">Settings</a>
-          </li>
+            <li class="tab-item{% if request.args.get("tab") == "basics" %} active{%endif%}">
+              <a href="/calendar/{{ calendar.id }}/settings?tab=basics">Basics</a>
+            </li>
+            <li class="tab-item{% if request.args.get("tab") == "categories_and_jobs" %} active{%endif%}">
+                <a href="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs">Categories & Jobs</a>
+            </li>
+            <li class="tab-item{% if request.args.get("view") == "tasks" %} active{%endif%}">
+              <a href="/calendar/{{ calendar.id }}?view=tasks">Tasks</a>
         </ul>
-        {% if request.args.get("view") == "week" %}
-          <div class="calendar-nav navbar">
-            <a class="btn btn-action btn-link btn-lg" href="/calendar/1?view=week&day={{ day }}&week={{ week }}&year={{ year }}&previous=true">
-              <i class="icon icon-arrow-left"></i>
-            </a>
-            <div class="navbar-primary">Week {{ week }}</div>
-            <a class="btn btn-action btn-link btn-lg" href="/calendar/1?view=week&day={{ day }}&week={{ week }}&year={{ year }}&next=true">
-              <i class="icon icon-arrow-right"></i>
-            </a>
-          </div>
-        
 
-          <div class="container">
-            <div class="columns">
-
-              <div class="column">
-                <a class="btn btn-link" href="/calendar/1?view=week&day={{ day }}&week={{ week }}&year={{ year }}&weekday=0">Monday</a>
-              </div>
-
-              <div class="column">
-                <a class="btn btn-link" href="/calendar/1?view=week&day={{ day }}&week={{ week }}&year={{ year }}&weekday=1">Tuesday</a>
-                </div>
-
-              <div class="column">
-                Wednesday
-              
-              </div>
-              <div class="column">
-                Thurday
-              
-              </div>
-              <div class="column">
-                Friday
-              
-              </div>
-              <div class="column">
-                Saturday
-              
-              </div>
-
-              <div class="column">
-                Sunday
-              
-              </div>              
-            </div>
-          </div>
-
-
-        {% else %}
-        <div class="calendar calendar-lg">
-          <div class="calendar-navbar">
-            <div class="calendar-primary">kuukausi</div>
-          </div>  
-          <div class="calendar-container">
-            <div class="calendar-header">
-              <div class="calendar-date">
-                Monday
-              </div>
-              <div class="calendar-date">
-                Tuesday
-              </div>
-              <div class="calendar-date">
-                Wednesday
-              </div>
-              <div class="calendar-date">
-                Thursday
-              </div>
-              <div class="calendar-date">
-                Friday
-              </div>
-              <div class="calendar-date">
-                Saturday
-              </div>
-              <div class="calendar-date">
-                Sunday
-              </div>
-            </div>
-  
-            <div class="calendar-body">
-              <div class="calendar-date">
-                <button class="date-item">1</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">2</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">3</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">4</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">5</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">6</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">7</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">8</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">9</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">10</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">11</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">12</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">13</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">14</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">15</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">16</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">17</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">18</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">19</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">20</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">21</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">22</button>
-              </div>            
-              <div class="calendar-date">
-                <button class="date-item">23</button>
-              </div>           
-               <div class="calendar-date">
-                <button class="date-item">24</button>
-              </div>            
-              <div class="calendar-date">
-                <button class="date-item">25</button>
-              </div>           
-              <div class="calendar-date">
-                <button class="date-item">26</button>
-              </div>            
-              <div class="calendar-date">
-                <button class="date-item">27</button>
-              </div>           
-               <div class="calendar-date">
-                <button class="date-item">28</button>
-              </div>            
-              <div class="calendar-date">
-                <button class="date-item">29</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">30</button>
-                <div class="calendar-event">testi</div>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">31</button>
-               </div>
-              <div class="calendar-date">
-                <button class="date-item">1</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">2</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">3</button>
-              </div>
-              <div class="calendar-date">
-                <button class="date-item">4</button>
-              </div>
-            </div>
-          </div>
+        {% for message in get_flashed_messages() %}
+        <div id="error_{{ message }}" class="toast toast-error">
+          <button onClick="hideElementById('error_{{ message }}')" class="btn btn-clear float-right"></button>
+          {{ message }}
         </div>
-        {% endif %}
+        {% endfor %}
+          
+
+        {% if not taks %}
+        <div class="empty bg-dark">
+          <p class="empty-title h5">No existing tasks</p>
+          <p class="empty-subtitle">You may want add some</p>
+        </div>
+      {% else %}
+
+        tähänkin väliin koodia
+
+
+      {% endif %}
+
       </div>
 
       <div class=col-3>
-
-        {% if request.args.get("view") == "week" %}
-
-        {% else %}
-
-        <div class="toast toast-error">
-          Lorem ipsum ad infinitum
-          <button class="btn btn-clear float-right"></button>
+        <div class="empty bg-dark">
+          <div class="empty-title">
+            {{ calendar.name }}  
+          </div>
+          <div class="empty-subtitle">
+            Add task
+          </div>
+          <div class="form-group">
+              <form method="POST" action="/calendar/{{ calendar.id }}?action=new_task" id="task_form">
+                  {{ task_form.csrf_token }}
+                  <label class="form-label">Name</label>
+                  {{ task_form.name }}
+                  <label class="form-label">Description</label>
+                  {{ task_form.description }}
+                  <label class="form-label">Planned time (minutes)</label>
+                  {{ task_form.planned_time }}
+              </form>
+          </div>
+          <div class="empty-action">
+            <button class="btn btn-primary" type="submit" form="task_form" value="create">Create</button>
+          </div>
         </div>
-
-        {% endif %}
-
-
-
-        
       </div>
     </div>
+  </div>
+
 {% endblock %}

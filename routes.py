@@ -2,7 +2,7 @@ import re
 from flask.globals import request
 from app import app
 from flask.helpers import flash
-from forms import FlaskForm, DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, ModifyCategory, DeleteCategory, JobForm, CreateTask, CreateEvent
+from forms import FlaskForm, DeleteCalendar, ModifyCalendar, DeleteCalendar, RegisterForm, LoginForm, LogoutForm, CreateCalendar, CreateCategory, ModifyCategory, DeleteCategory, JobForm, TaskForm
 import datetime
 from flask import render_template, redirect
 import users
@@ -194,55 +194,17 @@ def calendar(id):
     calendar = calendars.get_calendar_by_id(id)
     if not calendars.calendar_is_public_or_current_user_has_view_rights(calendar):
         return "forbidden", 403
-
-    datetime_now = datetime.datetime.now().isocalendar() #datetime.date(datetime.now()).isocalendar()
-    if request.args.get("year"):
-        year = int(request.args.get("year"))
-    else:
-        year = datetime_now[0]
-    if request.args.get("week"):
-        week = int(request.args.get("week"))
-    else:
-        week = datetime_now[1]
-    if request.args.get("day"):
-        day = int(request.args.get("day"))
-    else:
-        day = datetime_now[2]
-    if request.args.get("weekday"):
-        weekday = int(request.args.get("weekday"))
-    else:
-        weekday = datetime_now.weekday()
-    
-
     if not request.args.get("view"):
-        return redirect("/calendar/"+str(calendar.id)+"?view=week")
-
-    if request.args.get("view") == "week" and request.args.get("previous") == "true":
-        datetime_previous_week =datetime.datetime.fromisocalendar(year, week, day) - datetime.timedelta(days=7)
-        datetime_previous_week_tuple = datetime_previous_week.isocalendar()
-        previous_day = datetime_previous_week_tuple[2]
-        previous_week = datetime_previous_week_tuple[1]
-        previous_year = datetime_previous_week_tuple[0]
-        return redirect("/calendar/"+str(calendar.id)+"?view=week&day="+str(previous_day)+"&week="+str(previous_week)+"&year="+str(previous_year)+"&weekday="+str(weekday))
-
-
-    if request.args.get("view") == "week" and request.args.get("next") == "true":
-        datetime_next_week =datetime.datetime.fromisocalendar(year, week, day) + datetime.timedelta(days=7)
-        datetime_next_week_tuple = datetime_next_week.isocalendar()
-        next_day = datetime_next_week_tuple[2]
-        next_week = datetime_next_week_tuple[1]
-        next_year = datetime_next_week_tuple[0]
-        return redirect("/calendar/"+str(calendar.id)+"?view=week&day="+str(next_day)+"&week="+str(next_week)+"&year="+str(next_year)+str(weekday))
+        return redirect("/calendar/"+str(calendar.id)+"?view=tasks")
 
     logout_form = LogoutForm()
 
-    create_task_form = CreateTask()
-    create_event_form = CreateEvent()
+    task_form = TaskForm()
+
+    #tasks = calemdars
 
     return render_template("calendar.html",
-    logout_form=logout_form, create_task_form=create_task_form, event_form=create_event_form,
-    year=year, week=week, day=day,
-    calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_jobs=calendars.get_jobs, current_user=current_user)
+    logout_form=logout_form, task_form=task_form, calendar=calendar, users_calendars=calendars.get_users_calendars(current_user), get_jobs=calendars.get_jobs, current_user=current_user)
 
 def flash_errors_in_form(form: FlaskForm):
     for field, errors in form.errors.items():

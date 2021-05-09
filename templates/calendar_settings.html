@@ -6,21 +6,15 @@
     <div class="columns">
       <div class="col-9">
         <ul class="tab tab-block">
-            <li class="tab-item{% if request.args.get("tab") == "basics" %} active{%endif%}">
-              <a href="?tab=basics">Basics</a>
-            </li>
-            <li class="tab-item{% if request.args.get("tab") == "categories_and_jobs" %} active{%endif%}">
-                <a href="?tab=categories_and_jobs">Categories & Jobs</a>
-            </li>
-            <li class="tab-item{% if request.args.get("tab") == "users" %} active{%endif%}">
-                <a href="?tab=users">Users</a>
-            </li>
-            <li class="tab-item"">
-                <a href="/calendar/{{ calendar.id }}?view=week">Calendar</a>
-            </li>
-        </ul>
-
-
+          <li class="tab-item{% if request.args.get("tab") == "basics" %} active{%endif%}">
+            <a href="/calendar/{{ calendar.id }}/settings?tab=basics">Basics</a>
+          </li>
+          <li class="tab-item{% if request.args.get("tab") == "categories_and_jobs" %} active{%endif%}">
+              <a href="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs">Categories & Jobs</a>
+          </li>
+          <li class="tab-item{% if request.args.get("view") == "tasks" %} active{%endif%}">
+            <a href="/calendar/{{ calendar.id }}?view=tasks">Tasks</a>
+      </ul>
         {% for message in get_flashed_messages() %}
         <div id="error_{{ message }}" class="toast toast-error">
           <button onClick="hideElementById('error_{{ message }}')" class="btn btn-clear float-right"></button>

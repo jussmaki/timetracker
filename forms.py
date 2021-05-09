@@ -60,13 +60,10 @@ class JobForm(FlaskForm):
     description = StringField("description", default="")
     delete = BooleanField("delete", default=False)
 
-class CreateTask(FlaskForm):
+class TaskForm(FlaskForm):
+    job_id = IntegerField("id", default=0)
     name = StringField("name", validators=[DataRequired()])
     description = StringField("description", default="")
+    done = BooleanField("done", default=False)
     planned_time = IntegerField("planned_time", default=0)
-
-class CreateEvent(FlaskForm):
-    start_time = DateTimeField("start_time", validators=[DataRequired()])
-    end_time = DateTimeField("end_time", validators=[DataRequired()])
-    planned_time = IntegerField("planned_time", default=0)
-    actual_time = IntegerField("planned_time", default=0)
+    actual_time = IntegerField("actual_time", default=0)
