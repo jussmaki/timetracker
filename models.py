@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Table, Text, text
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Text, text
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from db import db
@@ -18,19 +18,9 @@ class Calendar(db.Model):
     owner_id = Column(ForeignKey('users.id'))
     name = Column(Text)
     description = Column(Text)
-    private = Column(Boolean, nullable=False, server_default=text("true"))
+    private = Column(Boolean, nullable=False, server_default=text('true'))
 
-    owner = relationship('User')
-
-#t_access_rights = Table(
-#    'access_rights', metadata,
-#    Column('calendar_id', ForeignKey('calendars.id')),
-#    Column('user_id', ForeignKey('users.id')),
-#    Column('view_calendar', Boolean, nullable=False),
-#    Column('modify_calendar', Boolean, nullable=False),
-#    Column('change_rights', Boolean, nullable=False),
-#    Column('delete_calendar', Boolean, nullable=False)
-#)
+    owner = relationship('User', cascade='all, delete', passive_deletes=True)
 
 class Category(db.Model):
     __tablename__ = 'categories'
@@ -40,7 +30,7 @@ class Category(db.Model):
     name = Column(Text, nullable=False)
     description = Column(Text)
 
-    calendar = relationship('Calendar')
+    calendar = relationship('Calendar', cascade='all, delete', passive_deletes=True)
 
 class Job(db.Model):
     __tablename__ = 'jobs'
@@ -50,29 +40,17 @@ class Job(db.Model):
     name = Column(Text, nullable=False)
     description = Column(Text)
 
-    category = relationship('Category')
+    category = relationship('Category', cascade='all, delete', passive_deletes=True)
 
 class Task(db.Model):
     __tablename__ = 'tasks'
 
     id = Column(Integer, primary_key=True)
     job_id = Column(ForeignKey('jobs.id'))
-    #calendar_id = Column(ForeignKey('calendars.id'))
     name = Column(Text, nullable=False)
     description = Column(Text)
+    done = Column(Boolean, nullable=False, server_default=text('false'))
     planned_time = Column(Integer, server_default=text("0"))
+    actual_time = Column(Integer, server_default=text('0'))
 
-    #calendar = relationship('Calendar')
-    job = relationship('Job')
-
-class Event(db.Model):
-    __tablename__ = 'events'
-
-    id = Column(Integer, primary_key=True)
-    task_id = Column(ForeignKey('tasks.id'))
-    start_time = Column(DateTime)
-    end_time = Column(DateTime)
-    #planned_time = Column(Integer)
-    actual_time = Column(Integer)
-
-    task = relationship('Task')
+    job = relationship('Job', cascade='all, delete', passive_deletes=True)
