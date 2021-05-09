@@ -21,8 +21,6 @@
           {{ message }}
         </div>
         {% endfor %}
-          
-
       {%if request.args.get("tab") == "basics" %}
       <div class="panel">
         <div class="panel-header">
@@ -60,8 +58,6 @@
             <button class="btn" type="submit" form="modify_calendar_form" value="save">Save</button>
         </div>
       </div>
-
-
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">Delete</div>
@@ -170,8 +166,6 @@
         </table>
       {% endif %}
 
-
-
       {% elif request.args.get("tab") == "categories_and_jobs" and request.args.get("action", "") == "view_jobs" %}
     
       {% if not jobs %}
@@ -180,7 +174,6 @@
           <p class="empty-subtitle">You may want add some</p>
         </div>
       {% else %}
-
         <table class="table table-hover">
           <thead>
             <tr>
@@ -254,32 +247,17 @@
           </tbody>
         </table>
       {% endif %}
-
-
-
     {% endif %}
-
-
     </div>
-
       <div class="col-3">
-
         <h4>Settings</h4>
-
         {% if request.args.get("tab") == "basics" %}
-
         <h6>Basics</h6>
-
         </div>
-        
         {% elif request.args.get("tab" == "category_and_jobs") %}
-
         <h6>Categories & Jobs</h6>
-
         {% endif %}
-
         {% if request.args.get("tab") == "categories_and_jobs" and request.args.get("action", "") == "" %}
-
         <div class="empty bg-dark">
           <div class="empty-title">
             {{ calendar.name }}  
@@ -301,9 +279,7 @@
           </div>
         </div>
         </div>
-
         {% elif request.args.get("tab") == "categories_and_jobs" and request.args.get("action", "") == "view_jobs" %}
-
         <div class="empty bg-dark">
           <a href="/calendar/{{ calendar.id }}/settings?tab=categories_and_jobs" class="btn btn-primary">Back to categories</a>
           <div class="empty-title">
@@ -326,7 +302,6 @@
           </div>
         </div>
         </div>
-
         {% endif %}
       </div>
     </div>

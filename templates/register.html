@@ -4,7 +4,6 @@
         <div class="columns">
             <div class="column col-auto col-mx-auto col-6">
                 <h6>Register new user</h6>
-
                 {% for field, errors in register_form.errors.items() %}
                 <div id="register_error_{{ field }}" class="toast toast-error">
                   <button onClick="hideElementById('register_error_{{ field }}')" class="btn btn-clear float-right"></button>
